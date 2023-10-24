@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Link,
   TextField,
@@ -9,14 +10,17 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Copyright from "../ui/Copyright";
+import useLogin from "../features/authentication/useLogin";
 
 function Login() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { login, isPending } = useLogin();
+
+  console.log(isPending);
 
   function onSubmit(data) {
     console.log(data);
-    console.log(formState);
-    reset();
+    login({ email: data.email, password: data.password });
   }
 
   function onError(error) {
@@ -45,6 +49,7 @@ function Login() {
             {...register("email", {
               required: "This field is required.",
             })}
+            disabled={isPending}
             error={formState.errors?.email !== undefined}
             helperText={formState.errors?.email?.message}
           />
@@ -57,6 +62,7 @@ function Login() {
             {...register("password", {
               required: "This field is required.",
             })}
+            disabled={isPending}
             error={formState.errors?.password !== undefined}
             helperText={formState.errors?.password?.message}
           />
@@ -65,8 +71,9 @@ function Login() {
             type="submit"
             sx={{ mt: 3, mb: 2 }}
             fullWidth
+            disabled={isPending}
           >
-            SIGN IN
+            {!isPending ? "SIGN IN" : "SIGNING IN..."}
           </Button>
         </Box>
         <Box
