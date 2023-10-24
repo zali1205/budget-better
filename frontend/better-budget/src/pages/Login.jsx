@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  CircularProgress,
   Container,
   Link,
   TextField,
@@ -13,13 +12,10 @@ import Copyright from "../ui/Copyright";
 import useLogin from "../features/authentication/useLogin";
 
 function Login() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { register, handleSubmit, formState } = useForm();
   const { login, isPending } = useLogin();
 
-  console.log(isPending);
-
   function onSubmit(data) {
-    console.log(data);
     login({ email: data.email, password: data.password });
   }
 
