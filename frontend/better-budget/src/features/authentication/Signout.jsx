@@ -5,7 +5,7 @@ function Signout() {
   const { signout, isPending } = useSignout();
 
   return (
-    <Button onClick={signout} disabled={isPending} variant="contained">
+    <Button onClick={signout} disabled={isPending} color="inherit">
       SIGN OUT
     </Button>
   );

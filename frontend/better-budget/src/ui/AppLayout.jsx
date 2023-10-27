@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Signout from "../features/authentication/Signout";
+import AppBar from "./AppBar";
 
 function AppLayout() {
   return (
     <>
-      <div>APP LAYOUT</div>
-      <Signout />
+      <AppBar />
       <Outlet />
     </>
   );
