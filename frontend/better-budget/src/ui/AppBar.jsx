@@ -1,26 +1,35 @@
 import { AppBar as MuiAppBar, Typography } from "@mui/material";
 import Signout from "../features/authentication/Signout";
+import { useState } from "react";
 import AppBarMenuButton from "./AppBarMenuButton";
 import Drawer from "./Drawer";
-import { useState } from "react";
 
 function AppBar() {
-  const [openDrawer, setOpenDrawer] = useState(false);
-  console.log(openDrawer);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function handleMobileOpen() {
+    setMobileOpen((open) => !open);
+  }
 
   return (
     <>
       <MuiAppBar
         position="fixed"
-        sx={{ flexDirection: "row", padding: 1, alignItems: "center" }}
+        sx={{
+          width: { sm: `calc(100% - ${240}px)` },
+          ml: { sm: `${240}px` },
+          flexDirection: "row",
+          padding: 1,
+          alignItems: "center",
+        }}
       >
-        <AppBarMenuButton setOpenDrawer={setOpenDrawer} />
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <AppBarMenuButton handleMobileOpen={handleMobileOpen} />
+        <Typography variant="h6" nowrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
         <Signout />
       </MuiAppBar>
-      <Drawer open={openDrawer} />
+      <Drawer mobileOpen={mobileOpen} handleMobileOpen={handleMobileOpen} />
     </>
   );
 }
