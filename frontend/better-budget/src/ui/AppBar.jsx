@@ -24,7 +24,7 @@ function AppBar() {
         }}
       >
         <AppBarMenuButton handleMobileOpen={handleMobileOpen} />
-        <Typography variant="h6" nowrap sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" nowrap="true" sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
         <Signout />

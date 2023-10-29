@@ -1,14 +1,18 @@
-import { Box, List, ListItem, Drawer as MuiDrawer } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  Drawer as MuiDrawer,
+  Typography,
+} from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import DrawerItems from "./DrawerItems";
 
 function Drawer({ mobileOpen, handleMobileOpen }) {
-  const DrawerItems = (
-    <List>
-      <ListItem>
-        <p>Helloffffffffffffffffffffffffffffffffffffffffffffffffff</p>
-      </ListItem>
-    </List>
-  );
-
   return (
     <Box sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}>
       <MuiDrawer
@@ -21,7 +25,7 @@ function Drawer({ mobileOpen, handleMobileOpen }) {
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
         }}
       >
-        {DrawerItems}
+        <DrawerItems />
       </MuiDrawer>
 
       <MuiDrawer
@@ -31,7 +35,7 @@ function Drawer({ mobileOpen, handleMobileOpen }) {
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
         }}
       >
-        {DrawerItems}
+        <DrawerItems />
       </MuiDrawer>
     </Box>
   );
