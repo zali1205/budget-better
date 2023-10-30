@@ -7,6 +7,9 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import AppLayout from "./ui/AppLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import Budget from "./pages/Budget";
+import Investments from "./pages/Investments";
+import SpendingHistory from "./pages/SpendingHistory";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,9 @@ function App() {
           >
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="budget" element={<Budget />} />
+            <Route path="investments" element={<Investments />} />
+            <Route path="spending-history" element={<SpendingHistory />} />
           </Route>
           <Route index element={<Navigate replace to="login" />} />
           <Route path="login" element={<Login />} />

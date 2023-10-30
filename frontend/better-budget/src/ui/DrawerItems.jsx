@@ -25,9 +25,9 @@ function DrawerItems() {
       link: "dashboard",
     },
     {
-      name: "Budgeting",
+      name: "My Budget",
       icon: <AttachMoneyIcon sx={drawerIconPadding} />,
-      link: "budgets",
+      link: "budget",
     },
     {
       name: "Investments",
