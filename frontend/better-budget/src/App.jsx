@@ -28,7 +28,7 @@ function App() {
           >
             <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="budget" element={<Budget />} />
+            <Route path="my-budget" element={<Budget />} />
             <Route path="investments" element={<Investments />} />
             <Route path="spending-history" element={<SpendingHistory />} />
           </Route>
