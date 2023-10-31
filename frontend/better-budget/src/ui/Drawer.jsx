@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  Drawer as MuiDrawer,
-  Typography,
-} from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import { Box, Drawer as MuiDrawer } from "@mui/material";
 import DrawerItems from "./DrawerItems";
 
 function Drawer({ mobileOpen, handleMobileOpen }) {
@@ -19,6 +8,7 @@ function Drawer({ mobileOpen, handleMobileOpen }) {
         variant="temporary"
         open={mobileOpen}
         onClose={handleMobileOpen}
+        onClick={handleMobileOpen}
         ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", sm: "none" },

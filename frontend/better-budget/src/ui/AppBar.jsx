@@ -1,4 +1,4 @@
-import { AppBar as MuiAppBar, Typography, capitalize } from "@mui/material";
+import { AppBar as MuiAppBar, Typography } from "@mui/material";
 import Signout from "../features/authentication/Signout";
 import { useState } from "react";
 import AppBarMenuButton from "./AppBarMenuButton";

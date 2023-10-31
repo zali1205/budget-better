@@ -8,7 +8,14 @@ function AppLayout() {
       <AppBar />
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 5, width: { sm: `calc(100% - ${240}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 5,
+          width: { sm: `calc(100% - ${240}px)` },
+          height: "100vh",
+          backgroundColor: "#f5f5f5",
+          overflow: "auto",
+        }}
       >
         <Outlet />
       </Box>

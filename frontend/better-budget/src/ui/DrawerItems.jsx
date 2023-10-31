@@ -1,3 +1,4 @@
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import {
   Divider,
   List,
@@ -10,33 +11,30 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import HistoryIcon from "@mui/icons-material/History";
-import { Link as RouterLink, useLocation } from "react-router-dom";
 
 function DrawerItems() {
   const location = useLocation();
   const selected = location.pathname.split("/").at(1);
 
-  const drawerIconPadding = { paddingRight: 3 };
-
   const drawers = [
     {
       name: "Dashboard",
-      icon: <DashboardIcon sx={drawerIconPadding} />,
+      icon: <DashboardIcon />,
       link: "dashboard",
     },
     {
       name: "My Budget",
-      icon: <AttachMoneyIcon sx={drawerIconPadding} />,
+      icon: <AttachMoneyIcon />,
       link: "my-budget",
     },
     {
       name: "Investments",
-      icon: <TrendingUpIcon sx={drawerIconPadding} />,
+      icon: <TrendingUpIcon />,
       link: "investments",
     },
     {
       name: "Spending History",
-      icon: <HistoryIcon sx={drawerIconPadding} />,
+      icon: <HistoryIcon />,
       link: "spending-history",
     },
   ];
@@ -52,8 +50,8 @@ function DrawerItems() {
               to={"/" + drawer.link}
               selected={drawer.link === selected}
             >
-              <ListItemIcon>{drawer.icon}</ListItemIcon>
-              <ListItemText>{drawer.name}</ListItemText>
+              <ListItemIcon sx={{ marginLeft: 1 }}>{drawer.icon}</ListItemIcon>
+              <ListItemText sx={{ marginLeft: -2 }}>{drawer.name}</ListItemText>
             </ListItemButton>
           </ListItem>
         );
