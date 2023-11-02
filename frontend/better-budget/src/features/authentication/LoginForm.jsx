@@ -1,7 +1,17 @@
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
 import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useLogin from "../authentication/useLogin";
+import Copyright from "../../ui/Copyright";
 
 function LoginForm() {
   const { register, handleSubmit, formState } = useForm();
@@ -16,6 +26,20 @@ function LoginForm() {
     console.log(formState);
   }
 
+  if (isPending) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -25,7 +49,17 @@ function LoginForm() {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4">Sign in</Typography>
+      <Avatar
+        sx={{
+          color: "white",
+          backgroundColor: "#1976d2",
+        }}
+      >
+        <LockIcon fontSize="medium" />
+      </Avatar>
+      <Typography variant="h5" sx={{ paddingTop: 1 }}>
+        Sign in
+      </Typography>
 
       <Box component="form" onSubmit={handleSubmit(onSubmit, onError)}>
         <TextField
@@ -33,6 +67,7 @@ function LoginForm() {
           label="Email Address"
           margin="normal"
           fullWidth
+          required
           {...register("email", {
             required: "This field is required.",
           })}
@@ -45,6 +80,7 @@ function LoginForm() {
           label="Password"
           type="password"
           margin="normal"
+          required
           fullWidth
           {...register("password", {
             required: "This field is required.",
@@ -71,12 +107,13 @@ function LoginForm() {
         }}
       >
         <Link component={RouterLink} to="/forgot-password">
-          Forgot your password?
+          Forgot password?
         </Link>
         <Link component={RouterLink} to="/signup">
-          Sign up
+          Don&apos;t have an account? Sign up
         </Link>
       </Box>
+      <Copyright />
     </Box>
   );
 }

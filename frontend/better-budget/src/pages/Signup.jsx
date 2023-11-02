@@ -6,7 +6,13 @@ function Signup() {
     <Container
       component="main"
       maxWidth="xs"
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 5,
+        height: { sm: "100vh" },
+      }}
     >
       <SignUpForm />
     </Container>

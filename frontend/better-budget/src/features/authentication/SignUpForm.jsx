@@ -1,4 +1,13 @@
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Person2Icon from "@mui/icons-material/Person2";
 import { Link as RouterLink } from "react-router-dom";
 import Copyright from "../../ui/Copyright";
 import { useForm } from "react-hook-form";
@@ -23,6 +32,20 @@ function SignUpForm() {
     console.error(error);
   }
 
+  if (isPending) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -32,7 +55,17 @@ function SignUpForm() {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4">Sign Up</Typography>
+      <Avatar
+        sx={{
+          color: "white",
+          backgroundColor: "#1976d2",
+        }}
+      >
+        <Person2Icon fontSize="medium" />
+      </Avatar>
+      <Typography variant="h5" sx={{ paddingTop: 1 }}>
+        Sign Up
+      </Typography>
       <Box component="form" onSubmit={handleSubmit(onSubmit, onError)}>
         <TextField
           id="firstName"
