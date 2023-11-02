@@ -23,7 +23,6 @@ function LoginForm() {
 
   function onError(error) {
     console.error(error);
-    console.log(formState);
   }
 
   if (isPending) {
