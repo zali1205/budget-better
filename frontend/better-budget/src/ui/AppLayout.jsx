@@ -10,7 +10,8 @@ function AppLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 5,
+          marginTop: "52.5px",
+          p: 2,
           width: { sm: `calc(100% - ${240}px)` },
           height: "100vh",
           backgroundColor: "#f5f5f5",
