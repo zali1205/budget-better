@@ -124,7 +124,11 @@ function SpendingHistoryOperations() {
           <Box
             sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}
           >
-            <Button variant="contained" onClick={handleCloseAddExpenseModal}>
+            <Button
+              color="error"
+              variant="contained"
+              onClick={handleCloseAddExpenseModal}
+            >
               Exit
             </Button>
           </Box>

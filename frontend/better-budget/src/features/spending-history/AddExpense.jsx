@@ -11,12 +11,23 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { useForm } from "react-hook-form";
 
 const mockStores = ["Walmart", "Target", "Microcenter"];
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 
 function AddExpense() {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
+  const { register, handleSubmit, formState, reset } = useForm();
+
+  function onSubmit(data) {
+    console.log(data);
+  }
+
+  function onError(error) {
+    console.log(error);
+  }
+
   return (
     <Box
       sx={{
@@ -44,6 +55,7 @@ function AddExpense() {
           flexDirection: "column",
           width: "100%",
         }}
+        onSubmit={handleSubmit(onSubmit, onError)}
       >
         <Box
           sx={{
@@ -72,15 +84,12 @@ function AddExpense() {
                 margin="normal"
                 required
                 sx={{ width: "195px" }}
+                {...register("store", {
+                  required: "This field is required.",
+                })}
               />
             )}
             options={mockStores}
-            //   {...register("firstName", {
-            //     required: "This field is required.",
-            //   })}
-            //   disabled={isPending}
-            //   error={formState?.errors?.firstName !== undefined}
-            //   helperText={formState?.errors?.firstName?.message}
           />
         </Box>
         <Box>
@@ -90,24 +99,18 @@ function AddExpense() {
             margin="normal"
             required
             sx={{ marginRight: 1 }}
-            //   {...register("firstName", {
-            //     required: "This field is required.",
-            //   })}
-            //   disabled={isPending}
-            //   error={formState?.errors?.firstName !== undefined}
-            //   helperText={formState?.errors?.firstName?.message}
+            {...register("paymentMethod", {
+              required: "This field is required.",
+            })}
           />
           <TextField
             id="paymentMethoDigits"
             label="Last 4 Digits"
             margin="normal"
             required
-            //   {...register("firstName", {
-            //     required: "This field is required.",
-            //   })}
-            //   disabled={isPending}
-            //   error={formState?.errors?.firstName !== undefined}
-            //   helperText={formState?.errors?.firstName?.message}
+            {...register("lastFourDigits", {
+              required: "This field is required.",
+            })}
           />
         </Box>
         <TextField
@@ -115,12 +118,9 @@ function AddExpense() {
           label="Quick Description"
           margin="normal"
           sx={{ width: "398px" }}
-          //   {...register("firstName", {
-          //     required: "This field is required.",
-          //   })}
-          //   disabled={isPending}
-          //   error={formState?.errors?.firstName !== undefined}
-          //   helperText={formState?.errors?.firstName?.message}
+          {...register("description", {
+            maxLength: 100,
+          })}
         />
         <Box sx={{ display: "flex" }}>
           <Autocomplete
@@ -135,12 +135,9 @@ function AddExpense() {
                 margin="normal"
                 required
                 sx={{ width: "195px", marginRight: 1 }}
-                //   {...register("firstName", {
-                //     required: "This field is required.",
-                //   })}
-                //   disabled={isPending}
-                //   error={formState?.errors?.firstName !== undefined}
-                //   helperText={formState?.errors?.firstName?.message}
+                {...register("expenseType", {
+                  required: "This field is required.",
+                })}
               />
             )}
           />
@@ -150,21 +147,21 @@ function AddExpense() {
             label="Cost"
             margin="normal"
             required
+            type="number"
             sx={{ width: "195px" }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
               ),
             }}
-            //   {...register("firstName", {
-            //     required: "This field is required.",
-            //   })}
-            //   disabled={isPending}
-            //   error={formState?.errors?.firstName !== undefined}
-            //   helperText={formState?.errors?.firstName?.message}
+            {...register("cost", {
+              required: "This field is required.",
+            })}
           />
         </Box>
-        <Button variant="contained">Add Expense</Button>
+        <Button variant="contained" type="submit" sx={{ marginTop: 2 }}>
+          Add Expense
+        </Button>
       </Box>
     </Box>
   );
