@@ -3,29 +3,36 @@ import {
   Avatar,
   Box,
   Button,
-  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 const mockStores = ["Walmart", "Target", "Microcenter"];
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 
 function AddExpense() {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
+  const [cost, setCost] = useState();
   const { register, handleSubmit, formState, reset } = useForm();
 
   function onSubmit(data) {
+    console.log(cost.toFixed(2));
     console.log(data);
   }
 
   function onError(error) {
     console.log(error);
+  }
+
+  function handleCostChange(event) {
+    console.log(event);
+    setCost(parseFloat(event.value));
   }
 
   return (
@@ -142,21 +149,16 @@ function AddExpense() {
             )}
           />
 
-          <TextField
+          <NumericFormat
+            customInput={TextField}
+            onValueChange={handleCostChange}
+            value={cost}
             id="cost"
             label="Cost"
             margin="normal"
             required
-            type="number"
             sx={{ width: "195px" }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              ),
-            }}
-            {...register("cost", {
-              required: "This field is required.",
-            })}
+            prefix="$"
           />
         </Box>
         <Button variant="contained" type="submit" sx={{ marginTop: 2 }}>
