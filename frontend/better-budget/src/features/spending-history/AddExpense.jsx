@@ -3,7 +3,9 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
   CircularProgress,
+  FormControlLabel,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,6 +23,7 @@ const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 function AddExpense() {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
   const [cost, setCost] = useState();
+  const [reocurring, setReoccuring] = useState(false);
   const { register, handleSubmit, formState, reset } = useForm();
   const { createExpense, isPending } = useCreateExpense();
 
@@ -33,6 +36,7 @@ function AddExpense() {
       description: data.description,
       expenseType: data.expenseType,
       cost: cost.toFixed(2),
+      reocurring,
     });
   }
 
@@ -42,6 +46,10 @@ function AddExpense() {
 
   function handleCostChange(event) {
     setCost(parseFloat(event.value));
+  }
+
+  function handleReocurringChange() {
+    setReoccuring((currentState) => !currentState);
   }
 
   if (isPending) {
@@ -172,6 +180,14 @@ function AddExpense() {
             required
             sx={{ width: "195px" }}
             prefix="$"
+          />
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Reoccuring?"
+            checked={reocurring}
+            onChange={handleReocurringChange}
           />
         </Box>
         <Button variant="contained" type="submit" sx={{ marginTop: 2 }}>
