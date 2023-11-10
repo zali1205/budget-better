@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -8,6 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import SpendingHistoryTableItem from "./SpendingHistoryTableItem";
+import useGetExpenses from "./useGetExpense";
 
 const mockExpense = [
   {
@@ -23,6 +25,12 @@ const mockExpense = [
 ];
 
 function SpendingHistoryTable() {
+  const { expenses, isLoading } = useGetExpenses();
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -38,7 +46,7 @@ function SpendingHistoryTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {mockExpense.map((expense) => (
+          {expenses.map((expense) => (
             <SpendingHistoryTableItem expense={expense} key={expense.id} />
           ))}
         </TableBody>

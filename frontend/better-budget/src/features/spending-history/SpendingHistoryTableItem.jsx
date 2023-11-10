@@ -3,13 +3,13 @@ import { TableCell, TableRow } from "@mui/material";
 function SpendingHistoryTableItem({ expense }) {
   return (
     <TableRow>
-      <TableCell>{expense.date}</TableCell>
+      <TableCell>{new Date(expense.date).toDateString()}</TableCell>
       <TableCell>{expense.store}</TableCell>
-      <TableCell>{expense.expenseType}</TableCell>
-      <TableCell>{expense.paymentMethod}</TableCell>
+      <TableCell>{expense.expense_type}</TableCell>
+      <TableCell>{expense.payment_method}</TableCell>
       <TableCell>{expense.reocurring === false ? "No" : "Yes"}</TableCell>
       <TableCell>{expense.description}</TableCell>
-      <TableCell>{expense.totalCost}</TableCell>
+      <TableCell>${expense.total_cost}</TableCell>
     </TableRow>
   );
 }
