@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   TextField,
   Typography,
 } from "@mui/material";
@@ -12,6 +13,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import useCreateExpense from "./useCreateExpense";
 
 const mockStores = ["Walmart", "Target", "Microcenter"];
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
@@ -20,10 +22,18 @@ function AddExpense() {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
   const [cost, setCost] = useState();
   const { register, handleSubmit, formState, reset } = useForm();
+  const { createExpense, isPending } = useCreateExpense();
 
   function onSubmit(data) {
-    console.log(cost.toFixed(2));
-    console.log(data);
+    createExpense({
+      date: purchaseDate.toISOString(),
+      store: data.store,
+      paymentMethod: data.paymentMethod,
+      reoccuring: false,
+      description: data.description,
+      expenseType: data.expenseType,
+      cost: cost.toFixed(2),
+    });
   }
 
   function onError(error) {
@@ -31,8 +41,11 @@ function AddExpense() {
   }
 
   function handleCostChange(event) {
-    console.log(event);
     setCost(parseFloat(event.value));
+  }
+
+  if (isPending) {
+    return <CircularProgress />;
   }
 
   return (
