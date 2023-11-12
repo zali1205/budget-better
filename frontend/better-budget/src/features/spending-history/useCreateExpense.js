@@ -8,6 +8,7 @@ function useCreateExpense() {
     mutationFn: (expense) => apiCreateExpense(expense),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
     },
   });
 

@@ -57,3 +57,18 @@ export async function getCurrentUser() {
 
   return data?.user;
 }
+
+export async function getCurrentUserId() {
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError) {
+    throw new Error(userError.message);
+  }
+
+  const userId = user.id;
+
+  return userId;
+}

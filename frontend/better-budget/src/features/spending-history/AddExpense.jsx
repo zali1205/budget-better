@@ -16,16 +16,19 @@ import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import useCreateExpense from "./useCreateExpense";
+import useGetStores from "./useGetStores";
 
 const mockStores = ["Walmart", "Target", "Microcenter"];
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
+const mockPaymentMethods = ["Cash", "Check", "Visa", "Mastercard", "Amex"];
 
 function AddExpense() {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
   const [cost, setCost] = useState();
   const [reocurring, setReoccuring] = useState(false);
-  const { register, handleSubmit, formState, reset } = useForm();
+  const { register, handleSubmit, getValues, reset } = useForm();
   const { createExpense, isPending } = useCreateExpense();
+  const { stores, isLoading } = useGetStores();
 
   function onSubmit(data) {
     createExpense({
@@ -36,8 +39,8 @@ function AddExpense() {
       description: data.description,
       expenseType: data.expenseType,
       cost: cost.toFixed(2),
-      reocurring,
     });
+    // reset();
   }
 
   function onError(error) {
@@ -120,17 +123,26 @@ function AddExpense() {
             options={mockStores}
           />
         </Box>
-        <Box>
-          <TextField
+        <Box sx={{ display: "flex" }}>
+          <Autocomplete
+            freeSolo
             id="paymentMethod"
-            label="Payment Method"
-            margin="normal"
-            required
-            sx={{ marginRight: 1 }}
-            {...register("paymentMethod", {
-              required: "This field is required.",
-            })}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                id="paymentMethod"
+                label="Payment Method"
+                margin="normal"
+                required
+                sx={{ width: "195px", marginRight: 1 }}
+                {...register("paymentMethod", {
+                  required: "This field is required",
+                })}
+              />
+            )}
+            options={mockPaymentMethods}
           />
+
           <TextField
             id="paymentMethoDigits"
             label="Last 4 Digits"
@@ -139,17 +151,9 @@ function AddExpense() {
             {...register("lastFourDigits", {
               required: "This field is required.",
             })}
+            disabled={getValues()?.paymentMethod === "Cash"}
           />
         </Box>
-        <TextField
-          id="description"
-          label="Quick Description"
-          margin="normal"
-          sx={{ width: "398px" }}
-          {...register("description", {
-            maxLength: 100,
-          })}
-        />
         <Box sx={{ display: "flex" }}>
           <Autocomplete
             freeSolo
@@ -182,6 +186,16 @@ function AddExpense() {
             prefix="$"
           />
         </Box>
+        <TextField
+          id="description"
+          label="Quick Description"
+          margin="normal"
+          sx={{ width: "398px" }}
+          {...register("description", {
+            maxLength: 100,
+          })}
+        />
+
         <Box sx={{ display: "flex" }}>
           <FormControlLabel
             control={<Checkbox />}

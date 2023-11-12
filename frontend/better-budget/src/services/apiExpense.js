@@ -1,10 +1,14 @@
+import { getCurrentUserId } from "./apiAuthentication";
+import { createStore, getStore } from "./apiStore";
 import supabase from "./supabase";
 
 export async function getExpenses() {
   // Supabase handles the filtering for user_id.
-  const { data, error } = await supabase.from("Expense").select();
-
-  console.log(data);
+  const { data, error } = await supabase
+    .from("expense")
+    .select(
+      "id, date, store(store_name), payment_method, reoccuring, description, total_cost, expense_type"
+    );
 
   if (error) {
     throw new Error(error.message);
@@ -15,24 +19,23 @@ export async function getExpenses() {
 
 export async function createExpense(expenseData) {
   console.log(expenseData);
+  const storeName = expenseData.store.toLowerCase();
+  let store;
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  store = await getStore(storeName);
 
-  if (userError) {
-    throw new Error(userError.message);
+  if (store.length === 0) {
+    store = await createStore(storeName);
   }
 
-  const userId = user.id;
+  const userId = await getCurrentUserId();
 
   const { data, error } = await supabase
-    .from("Expense")
+    .from("expense")
     .insert({
       user_id: userId,
       date: expenseData.date,
-      store: expenseData.store,
+      store: store[0].id,
       payment_method: expenseData.paymentMethod,
       reoccuring: expenseData.reoccuring,
       description: expenseData.description,
@@ -40,8 +43,6 @@ export async function createExpense(expenseData) {
       total_cost: expenseData.cost,
     })
     .select();
-
-  console.log(error);
 
   if (error) {
     throw new Error(error.message);
