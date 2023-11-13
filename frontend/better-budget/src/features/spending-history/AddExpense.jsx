@@ -34,7 +34,8 @@ function AddExpense() {
     createExpense({
       date: purchaseDate.toISOString(),
       store: data.store,
-      paymentMethod: data.paymentMethod,
+      paymentType: data.paymentType,
+      paymentLastFour: data.paymentLastFour,
       reoccuring: false,
       description: data.description,
       expenseType: data.expenseType,
@@ -126,16 +127,16 @@ function AddExpense() {
         <Box sx={{ display: "flex" }}>
           <Autocomplete
             freeSolo
-            id="paymentMethod"
+            id="paymentType"
             renderInput={(params) => (
               <TextField
                 {...params}
-                id="paymentMethod"
+                id="paymentType"
                 label="Payment Method"
                 margin="normal"
                 required
                 sx={{ width: "195px", marginRight: 1 }}
-                {...register("paymentMethod", {
+                {...register("paymentType", {
                   required: "This field is required",
                 })}
               />
@@ -144,11 +145,11 @@ function AddExpense() {
           />
 
           <TextField
-            id="paymentMethoDigits"
+            id="paymentLastFour"
             label="Last 4 Digits"
             margin="normal"
             required
-            {...register("lastFourDigits", {
+            {...register("paymentLastFour", {
               required: "This field is required.",
             })}
             disabled={getValues()?.paymentMethod === "Cash"}

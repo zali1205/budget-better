@@ -4,7 +4,7 @@ import supabase from "./supabase";
 export async function getStore(storeName) {
   const { data, error } = await supabase
     .from("store")
-    .select("store_name")
+    .select("id, store_name")
     .eq("store_name", storeName);
 
   if (error) {
@@ -21,7 +21,6 @@ export async function getStores() {
     throw new Error(error.message);
   }
 
-  console.log(data);
   return data;
 }
 
