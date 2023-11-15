@@ -9,6 +9,7 @@ function useCreateExpense() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
       queryClient.invalidateQueries({ queryKey: ["stores"] });
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
     },
   });
 

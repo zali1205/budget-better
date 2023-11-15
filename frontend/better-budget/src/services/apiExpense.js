@@ -20,6 +20,7 @@ export async function getExpenses() {
 
 export async function createExpense(expenseData) {
   console.log(expenseData);
+
   const storeName = expenseData.store.toLowerCase();
   const paymentType = expenseData.paymentType.toLowerCase();
 

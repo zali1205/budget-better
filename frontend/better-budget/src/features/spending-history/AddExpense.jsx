@@ -17,31 +17,36 @@ import { useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import useCreateExpense from "./useCreateExpense";
 import useGetStores from "./useGetStores";
+import { toTitleCase } from "../../utils/helper";
+import useGetPayments from "./useGetPayments";
 
-const mockStores = ["Walmart", "Target", "Microcenter"];
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 const mockPaymentMethods = ["Cash", "Check", "Visa", "Mastercard", "Amex"];
 
-function AddExpense() {
+function AddExpense({ closeModal }) {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
+  const [paymentTypeValue, setPaymentTypeValue] = useState("");
   const [cost, setCost] = useState();
   const [reocurring, setReoccuring] = useState(false);
   const { register, handleSubmit, getValues, reset } = useForm();
   const { createExpense, isPending } = useCreateExpense();
-  const { stores, isLoading } = useGetStores();
+  const { stores, isLoading: isLoadingStores } = useGetStores();
+  const { payments, isLoading: isLoadingPayments } = useGetPayments();
 
   function onSubmit(data) {
     createExpense({
       date: purchaseDate.toISOString(),
       store: data.store,
       paymentType: data.paymentType,
-      paymentLastFour: data.paymentLastFour,
+      paymentLastFour:
+        data.paymentLastFour === "" ? null : data.paymentLastFour,
       reoccuring: false,
       description: data.description,
       expenseType: data.expenseType,
       cost: cost.toFixed(2),
     });
-    // reset();
+    reset();
+    closeModal();
   }
 
   function onError(error) {
@@ -56,9 +61,30 @@ function AddExpense() {
     setReoccuring((currentState) => !currentState);
   }
 
-  if (isPending) {
-    return <CircularProgress />;
+  if (isPending || isLoadingStores || isLoadingPayments) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          padding: 10,
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
+
+  const paymentTypeOptions = payments.map((payment) => payment.payment_type);
+  const paymentTypeLastFourOptions =
+    paymentTypeValue !== null && paymentTypeValue.toLowerCase() !== "cash"
+      ? payments
+          .filter(
+            (payment) => payment.payment_type === paymentTypeValue.toLowerCase()
+          )
+          .map((payment) => payment.payment_last_four_digits.toString())
+      : [];
 
   return (
     <Box
@@ -121,13 +147,15 @@ function AddExpense() {
                 })}
               />
             )}
-            options={mockStores}
+            options={stores.map((store) => toTitleCase(store.store_name))}
           />
         </Box>
         <Box sx={{ display: "flex" }}>
           <Autocomplete
             freeSolo
             id="paymentType"
+            onChange={(event, newValue) => setPaymentTypeValue(newValue)}
+            onInputChange={(event, newValue) => setPaymentTypeValue(newValue)}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -141,19 +169,48 @@ function AddExpense() {
                 })}
               />
             )}
-            options={mockPaymentMethods}
+            options={paymentTypeOptions}
           />
 
-          <TextField
+          <Autocomplete
+            freeSolo
+            id="paymentLastFour"
+            disabled={
+              paymentTypeValue !== null &&
+              paymentTypeValue.toLowerCase() === "cash"
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                id="paymentLastFour"
+                label="Last 4 Digits"
+                margin="normal"
+                required={
+                  paymentTypeValue !== null &&
+                  paymentTypeValue.toLowerCase() === "cash"
+                }
+                sx={{ width: "195px" }}
+                {...register("paymentLastFour", {
+                  required:
+                    paymentTypeValue !== null &&
+                    paymentTypeValue !== "cash" &&
+                    "This field is required",
+                })}
+              />
+            )}
+            options={paymentTypeLastFourOptions}
+          />
+
+          {/* <TextField
             id="paymentLastFour"
             label="Last 4 Digits"
             margin="normal"
-            required
+            required={paymentTypeValue.toLowerCase() !== "cash"}
+            disabled={paymentTypeValue.toLowerCase() === "cash"}
             {...register("paymentLastFour", {
               required: "This field is required.",
             })}
-            disabled={getValues()?.paymentMethod === "Cash"}
-          />
+          /> */}
         </Box>
         <Box sx={{ display: "flex" }}>
           <Autocomplete

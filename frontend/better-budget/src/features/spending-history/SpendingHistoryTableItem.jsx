@@ -2,8 +2,6 @@ import { TableCell, TableRow } from "@mui/material";
 import { toTitleCase } from "../../utils/helper";
 
 function SpendingHistoryTableItem({ expense }) {
-  console.log(expense);
-
   return (
     <TableRow>
       <TableCell>{new Date(expense.date).toDateString()}</TableCell>

@@ -111,7 +111,7 @@ function SpendingHistoryOperations() {
         <Box
           sx={{
             position: "absolute",
-            top: "30%",
+            top: "20%",
             left: "40%",
             bgcolor: "background.paper",
             border: "2px solid #000",
@@ -120,7 +120,7 @@ function SpendingHistoryOperations() {
             p: 4,
           }}
         >
-          <AddExpense />
+          <AddExpense closeModal={handleCloseAddExpenseModal} />
           <Box
             sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}
           >

@@ -1,12 +1,35 @@
 import { getCurrentUserId } from "./apiAuthentication";
 import supabase from "./supabase";
 
-export async function getPayment({ payment_type, payment_last_four_digits }) {
+export async function getPayments() {
   const { data, error } = await supabase
     .from("payment")
-    .select()
-    .eq("payment_type", payment_type)
-    .eq("payment_last_four_digits", payment_last_four_digits);
+    .select("payment_type, payment_last_four_digits");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function getPayment({ payment_type, payment_last_four_digits }) {
+  let data, error;
+
+  if (payment_type.toLowerCase() === "cash") {
+    ({ data, error } = await supabase
+      .from("payment")
+      .select()
+      .eq("payment_type", payment_type));
+  } else {
+    ({ data, error } = await supabase
+      .from("payment")
+      .select()
+      .eq("payment_type", payment_type)
+      .eq("payment_last_four_digits", payment_last_four_digits));
+  }
+
+  console.log(error);
 
   if (error) {
     throw new Error(error.message);

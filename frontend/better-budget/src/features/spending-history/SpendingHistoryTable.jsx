@@ -25,9 +25,9 @@ const mockExpense = [
 ];
 
 function SpendingHistoryTable() {
-  const { expenses, isLoading } = useGetExpenses();
+  const { expenses, isLoading, isFetching } = useGetExpenses();
 
-  if (isLoading) {
+  if (isFetching || isLoading) {
     return <CircularProgress />;
   }
 
