@@ -21,7 +21,6 @@ import { toTitleCase } from "../../utils/helper";
 import useGetPayments from "./useGetPayments";
 
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
-const mockPaymentMethods = ["Cash", "Check", "Visa", "Mastercard", "Amex"];
 
 function AddExpense({ closeModal }) {
   const [purchaseDate, setPurchaseDate] = useState(dayjs());
@@ -76,7 +75,10 @@ function AddExpense({ closeModal }) {
     );
   }
 
-  const paymentTypeOptions = payments.map((payment) => payment.payment_type);
+  // Need to get rid of duplicates below
+  const paymentTypeOptions = [
+    ...new Set(payments.map((payment) => payment.payment_type)),
+  ];
   const paymentTypeLastFourOptions =
     paymentTypeValue !== null && paymentTypeValue.toLowerCase() !== "cash"
       ? payments
@@ -200,17 +202,6 @@ function AddExpense({ closeModal }) {
             )}
             options={paymentTypeLastFourOptions}
           />
-
-          {/* <TextField
-            id="paymentLastFour"
-            label="Last 4 Digits"
-            margin="normal"
-            required={paymentTypeValue.toLowerCase() !== "cash"}
-            disabled={paymentTypeValue.toLowerCase() === "cash"}
-            {...register("paymentLastFour", {
-              required: "This field is required.",
-            })}
-          /> */}
         </Box>
         <Box sx={{ display: "flex" }}>
           <Autocomplete

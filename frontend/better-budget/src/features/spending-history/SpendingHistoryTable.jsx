@@ -11,19 +11,6 @@ import {
 import SpendingHistoryTableItem from "./SpendingHistoryTableItem";
 import useGetExpenses from "./useGetExpense";
 
-const mockExpense = [
-  {
-    id: 1,
-    date: new Date().toDateString(),
-    store: "Walmart",
-    expenseType: "Grocery",
-    paymentMethod: "Visa - 8054",
-    reocurring: false,
-    description: "Clothes",
-    totalCost: "$23.54",
-  },
-];
-
 function SpendingHistoryTable() {
   const { expenses, isLoading, isFetching } = useGetExpenses();
 
@@ -43,6 +30,7 @@ function SpendingHistoryTable() {
             <TableCell>Reoccuring</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Total Cost</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
