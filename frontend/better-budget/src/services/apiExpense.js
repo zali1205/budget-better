@@ -69,3 +69,16 @@ export async function createExpense(expenseData) {
 
   return data;
 }
+
+export async function deleteExpense(expenseId) {
+  const { data, error } = await supabase
+    .from("expense")
+    .delete()
+    .eq("id", expenseId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
