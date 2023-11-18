@@ -1,4 +1,5 @@
 import {
+  Box,
   CircularProgress,
   Paper,
   Table,
@@ -15,7 +16,11 @@ function SpendingHistoryTable() {
   const { expenses, isLoading, isFetching } = useGetExpenses();
 
   if (isFetching || isLoading) {
-    return <CircularProgress />;
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", height: "75vh" }}>
+        <CircularProgress size={65} />
+      </Box>
+    );
   }
 
   return (

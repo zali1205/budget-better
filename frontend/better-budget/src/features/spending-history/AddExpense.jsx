@@ -75,9 +75,8 @@ function AddExpense({ closeModal }) {
     );
   }
 
-  // Need to get rid of duplicates below
   const paymentTypeOptions = [
-    ...new Set(payments.map((payment) => payment.payment_type)),
+    ...new Set(payments.map((payment) => toTitleCase(payment.payment_type))),
   ];
   const paymentTypeLastFourOptions =
     paymentTypeValue !== null && paymentTypeValue.toLowerCase() !== "cash"
@@ -85,7 +84,9 @@ function AddExpense({ closeModal }) {
           .filter(
             (payment) => payment.payment_type === paymentTypeValue.toLowerCase()
           )
-          .map((payment) => payment.payment_last_four_digits.toString())
+          .map((payment) =>
+            toTitleCase(payment.payment_last_four_digits.toString())
+          )
       : [];
 
   return (
