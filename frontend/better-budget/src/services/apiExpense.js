@@ -10,7 +10,7 @@ export async function getExpenses() {
     .select(
       "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
     )
-    .order("date", { ascending: true });
+    .order("date", { ascending: false });
 
   if (error) {
     throw new Error(error.message);
