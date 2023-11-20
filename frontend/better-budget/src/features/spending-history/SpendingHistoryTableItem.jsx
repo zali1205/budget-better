@@ -15,9 +15,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { toTitleCase } from "../../utils/helper";
 import DeleteExpense from "./DeleteExpense";
+import EditExpense from "./EditExpense";
+import dayjs from "dayjs";
 
 function SpendingHistoryTableItem({ expense }) {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,27 +28,40 @@ function SpendingHistoryTableItem({ expense }) {
     setAnchorEl(event.currentTarget);
   }
 
-  function handleClose() {
+  function handleCloseMenu() {
     setAnchorEl(null);
   }
 
   function handleDelete() {
-    handleOpenModal();
-    handleClose();
+    handleOpenDeleteModal();
+    handleCloseMenu();
   }
 
-  function handleOpenModal() {
+  function handleOpenDeleteModal() {
     setOpenDeleteModal(true);
   }
 
-  function handleCloseModal() {
+  function handleCloseDeleteModal() {
     setOpenDeleteModal(false);
+  }
+
+  function handleEdit() {
+    handleOpenEditModal();
+    handleCloseMenu();
+  }
+
+  function handleOpenEditModal() {
+    setOpenEditModal(true);
+  }
+
+  function handleCloseEditModal() {
+    setOpenEditModal(false);
   }
 
   return (
     <>
       <TableRow>
-        <TableCell>{new Date(expense.date).toDateString()}</TableCell>
+        <TableCell>{dayjs(expense.date).format("ddd MMM, D, YYYY")}</TableCell>
         <TableCell>{toTitleCase(expense.store_id.store_name)}</TableCell>
         <TableCell>{expense.expense_type}</TableCell>
         <TableCell>
@@ -66,9 +82,9 @@ function SpendingHistoryTableItem({ expense }) {
             id="menu-options"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            onClose={handleCloseMenu}
           >
-            <MenuItem>
+            <MenuItem onClick={handleEdit}>
               <EditIcon fontSize="small" />
               <Typography sx={{ paddingLeft: 1 }}>Edit Expense</Typography>
             </MenuItem>
@@ -79,7 +95,7 @@ function SpendingHistoryTableItem({ expense }) {
           </Menu>
         </TableCell>
       </TableRow>
-      <Modal open={openDeleteModal} onClose={handleCloseModal}>
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
         <Box
           sx={{
             position: "absolute",
@@ -99,7 +115,34 @@ function SpendingHistoryTableItem({ expense }) {
             <Button
               color="error"
               variant="contained"
-              onClick={handleCloseModal}
+              onClick={handleCloseDeleteModal}
+            >
+              Exit
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+      <Modal open={openEditModal} onClose={handleCloseEditModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "30%",
+            left: "40%",
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            width: "500px",
+            p: 4,
+          }}
+        >
+          <EditExpense expense={expense} />
+          <Box
+            sx={{ display: "flex", justifyContent: "center", paddingTop: 5 }}
+          >
+            <Button
+              color="error"
+              variant="contained"
+              onClick={handleCloseEditModal}
             >
               Exit
             </Button>
