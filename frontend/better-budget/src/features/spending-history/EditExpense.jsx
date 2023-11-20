@@ -9,43 +9,31 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import EditIcon from "@mui/icons-material/Edit";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { NumericFormat } from "react-number-format";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { useForm } from "react-hook-form";
-import { NumericFormat } from "react-number-format";
-import useCreateExpense from "./useCreateExpense";
 import useGetStores from "./useGetStores";
-import { toTitleCase } from "../../utils/helper";
 import useGetPayments from "./useGetPayments";
+import { toTitleCase } from "../../utils/helper";
 
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 
-function AddExpense({ closeModal }) {
-  const [purchaseDate, setPurchaseDate] = useState(dayjs());
-  const [paymentTypeValue, setPaymentTypeValue] = useState("");
-  const [cost, setCost] = useState();
-  const [reocurring, setReoccuring] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
-  const { createExpense, isPending } = useCreateExpense();
+function EditExpense({ expense }) {
+  const [purchaseDate, setPurchaseDate] = useState(dayjs(expense.date));
+  const [paymentTypeValue, setPaymentTypeValue] = useState(
+    toTitleCase(expense.payment_method_id.payment_type)
+  );
+  const [cost, setCost] = useState(expense.total_cost);
+  const [reocurring, setReoccuring] = useState(expense.reoccuring);
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
+  const { register, handleSubmit, reset } = useForm();
 
   function onSubmit(data) {
-    createExpense({
-      date: purchaseDate.toISOString(),
-      store: data.store,
-      paymentType: data.paymentType,
-      paymentLastFour:
-        data.paymentLastFour === "" ? null : data.paymentLastFour,
-      reoccuring: false,
-      description: data.description,
-      expenseType: data.expenseType,
-      cost: cost.toFixed(2),
-    });
-    reset();
-    closeModal();
+    console.log(data);
   }
 
   function onError(error) {
@@ -60,7 +48,7 @@ function AddExpense({ closeModal }) {
     setReoccuring((currentState) => !currentState);
   }
 
-  if (isPending || isLoadingStores || isLoadingPayments) {
+  if (isLoadingStores || isLoadingPayments) {
     return (
       <Box
         sx={{
@@ -91,11 +79,7 @@ function AddExpense({ closeModal }) {
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
+      sx={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
       <Avatar
         sx={{
@@ -103,10 +87,10 @@ function AddExpense({ closeModal }) {
           backgroundColor: "#1976d2",
         }}
       >
-        <PointOfSaleIcon fontSize="medium" />
+        <EditIcon fontSize="medium" />
       </Avatar>
       <Typography variant="h6" sx={{ paddingTop: 1 }}>
-        Add an expense
+        Edit an expense
       </Typography>
       <Box
         component="form"
@@ -137,6 +121,7 @@ function AddExpense({ closeModal }) {
             freeSolo
             id="store"
             label="Store"
+            defaultValue={toTitleCase(expense.store_id.store_name)}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -159,6 +144,7 @@ function AddExpense({ closeModal }) {
             id="paymentType"
             onChange={(event, newValue) => setPaymentTypeValue(newValue)}
             onInputChange={(event, newValue) => setPaymentTypeValue(newValue)}
+            value={paymentTypeValue}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -181,6 +167,11 @@ function AddExpense({ closeModal }) {
             disabled={
               paymentTypeValue !== null &&
               paymentTypeValue.toLowerCase() === "cash"
+            }
+            defaultValue={
+              expense.payment_method_id.payment_last_four_digits !== null
+                ? String(expense.payment_method_id.payment_last_four_digits)
+                : ""
             }
             renderInput={(params) => (
               <TextField
@@ -209,6 +200,7 @@ function AddExpense({ closeModal }) {
             freeSolo
             id="expenseType"
             options={mockExpenseType}
+            defaultValue={expense.expense_type}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -240,6 +232,7 @@ function AddExpense({ closeModal }) {
           id="description"
           label="Quick Description"
           margin="normal"
+          defaultValue={expense.description}
           sx={{ width: "398px" }}
           {...register("description", {
             maxLength: 100,
@@ -262,4 +255,4 @@ function AddExpense({ closeModal }) {
   );
 }
 
-export default AddExpense;
+export default EditExpense;
