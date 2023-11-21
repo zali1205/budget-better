@@ -18,22 +18,45 @@ import dayjs from "dayjs";
 import useGetStores from "./useGetStores";
 import useGetPayments from "./useGetPayments";
 import { toTitleCase } from "../../utils/helper";
+import useEditExpense from "./useEditExpense";
 
 const mockExpenseType = ["Entertainment", "Grocery", "Automobile", "House"];
 
-function EditExpense({ expense }) {
+function EditExpense({ expense, index, closeModal }) {
   const [purchaseDate, setPurchaseDate] = useState(dayjs(expense.date));
   const [paymentTypeValue, setPaymentTypeValue] = useState(
     toTitleCase(expense.payment_method_id.payment_type)
   );
   const [cost, setCost] = useState(expense.total_cost);
   const [reocurring, setReoccuring] = useState(expense.reoccuring);
+  const { editExpense, isPending } = useEditExpense(index);
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      store: expense.store_id.store_name,
+      expenseType: expense.expense_type,
+      paymentType: expense.payment_method_id.payment_type,
+      paymentLastFour: expense.payment_method_id?.payment_last_four_digits,
+    },
+  });
 
   function onSubmit(data) {
-    console.log(data);
+    editExpense({
+      oldExpenseData: expense,
+      newExpenseData: {
+        date: purchaseDate.toISOString(),
+        store: data.store,
+        paymentType: data.paymentType,
+        paymentLastFour:
+          data.paymentLastFour === "" ? null : data.paymentLastFour,
+        reoccuring: reocurring,
+        description: data.description,
+        expenseType: data.expenseType,
+        cost: cost.toFixed(2),
+      },
+    });
+    closeModal();
   }
 
   function onError(error) {
@@ -48,7 +71,7 @@ function EditExpense({ expense }) {
     setReoccuring((currentState) => !currentState);
   }
 
-  if (isLoadingStores || isLoadingPayments) {
+  if (isPending || isLoadingStores || isLoadingPayments) {
     return (
       <Box
         sx={{
@@ -187,7 +210,7 @@ function EditExpense({ expense }) {
                 {...register("paymentLastFour", {
                   required:
                     paymentTypeValue !== null &&
-                    paymentTypeValue !== "cash" &&
+                    paymentTypeValue.toLowerCase() !== "cash" &&
                     "This field is required",
                 })}
               />

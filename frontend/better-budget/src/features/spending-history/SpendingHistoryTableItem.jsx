@@ -70,7 +70,7 @@ function SpendingHistoryTableItem({ expense }) {
             ? ""
             : ` - ${expense.payment_method_id.payment_last_four_digits}`}
         </TableCell>
-        <TableCell>{!expense.reocurring ? "No" : "Yes"}</TableCell>
+        <TableCell>{!expense.reoccuring ? "No" : "Yes"}</TableCell>
         <TableCell>{expense.description}</TableCell>
         <TableCell>${expense.total_cost.toFixed(2)}</TableCell>
 
@@ -135,7 +135,7 @@ function SpendingHistoryTableItem({ expense }) {
             p: 4,
           }}
         >
-          <EditExpense expense={expense} />
+          <EditExpense expense={expense} closeModal={handleCloseEditModal} />
           <Box
             sx={{ display: "flex", justifyContent: "center", paddingTop: 5 }}
           >

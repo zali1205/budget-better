@@ -20,8 +20,6 @@ export async function getExpenses() {
 }
 
 export async function createExpense(expenseData) {
-  console.log(expenseData);
-
   const storeName = expenseData.store.toLowerCase();
   const paymentType = expenseData.paymentType.toLowerCase();
 
@@ -63,6 +61,58 @@ export async function createExpense(expenseData) {
       total_cost: expenseData.cost,
     })
     .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function editExpense(oldExpenseData, newExpenseData) {
+  console.log(oldExpenseData, newExpenseData);
+  const storeName = newExpenseData.store.toLowerCase();
+  const paymentType = newExpenseData.paymentType.toLowerCase();
+
+  let store;
+  let payment_method;
+
+  store = await getStore(storeName);
+
+  if (store.length === 0) {
+    store = await createStore(storeName);
+  }
+
+  payment_method = await getPayment({
+    payment_type: paymentType,
+    payment_last_four_digits: newExpenseData.paymentLastFour,
+  });
+
+  if (payment_method.length === 0) {
+    payment_method = await createPayment({
+      payment_type: paymentType,
+      payment_last_four_digits: newExpenseData.paymentLastFour,
+    });
+  }
+
+  const userId = await getCurrentUserId();
+
+  const { data, error } = await supabase
+    .from("expense")
+    .update({
+      user_id: userId,
+      date: newExpenseData.date,
+      store_id: store[0].id,
+      payment_method_id: payment_method[0].id,
+      reoccuring: newExpenseData.reoccuring,
+      description: newExpenseData.description,
+      expense_type: newExpenseData.expenseType,
+      total_cost: newExpenseData.cost,
+    })
+    .eq("id", oldExpenseData.id)
+    .select(
+      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
+    );
 
   if (error) {
     throw new Error(error.message);

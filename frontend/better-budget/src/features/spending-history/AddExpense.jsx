@@ -39,12 +39,11 @@ function AddExpense({ closeModal }) {
       paymentType: data.paymentType,
       paymentLastFour:
         data.paymentLastFour === "" ? null : data.paymentLastFour,
-      reoccuring: false,
+      reoccuring: reocurring,
       description: data.description,
       expenseType: data.expenseType,
       cost: cost.toFixed(2),
     });
-    reset();
     closeModal();
   }
 

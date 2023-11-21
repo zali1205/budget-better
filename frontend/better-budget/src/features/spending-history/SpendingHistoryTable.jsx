@@ -14,7 +14,6 @@ import useGetExpenses from "./useGetExpense";
 
 function SpendingHistoryTable() {
   const { expenses, isLoading, isFetching } = useGetExpenses();
-
   if (isFetching || isLoading) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", height: "75vh" }}>

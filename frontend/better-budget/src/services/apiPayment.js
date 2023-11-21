@@ -29,8 +29,6 @@ export async function getPayment({ payment_type, payment_last_four_digits }) {
       .eq("payment_last_four_digits", payment_last_four_digits));
   }
 
-  console.log(error);
-
   if (error) {
     throw new Error(error.message);
   }
