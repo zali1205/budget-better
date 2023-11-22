@@ -193,6 +193,9 @@ function AddExpense({ closeModal }) {
                 }
                 sx={{ width: "195px" }}
                 {...register("paymentLastFour", {
+                  pattern: {
+                    value: /^\d{4}$/,
+                  },
                   required:
                     paymentTypeValue !== null &&
                     paymentTypeValue !== "cash" &&

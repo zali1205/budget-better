@@ -208,6 +208,9 @@ function EditExpense({ expense, index, closeModal }) {
                 }
                 sx={{ width: "195px" }}
                 {...register("paymentLastFour", {
+                  pattern: {
+                    value: /^\d{4}$/,
+                  },
                   required:
                     paymentTypeValue !== null &&
                     paymentTypeValue.toLowerCase() !== "cash" &&
