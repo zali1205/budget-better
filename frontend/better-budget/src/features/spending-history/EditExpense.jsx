@@ -32,7 +32,7 @@ function EditExpense({ expense, index, closeModal }) {
   const { editExpense, isPending } = useEditExpense(index);
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, formState, reset } = useForm({
     defaultValues: {
       store: expense.store_id.store_name,
       expenseType: expense.expense_type,
@@ -156,6 +156,8 @@ function EditExpense({ expense, index, closeModal }) {
                 {...register("store", {
                   required: "This field is required.",
                 })}
+                error={formState?.errors?.store !== undefined}
+                helperText={formState?.errors?.store?.message}
               />
             )}
             options={stores.map((store) => toTitleCase(store.store_name))}
@@ -179,6 +181,8 @@ function EditExpense({ expense, index, closeModal }) {
                 {...register("paymentType", {
                   required: "This field is required",
                 })}
+                error={formState?.errors?.paymentType !== undefined}
+                helperText={formState?.errors?.paymentType?.message}
               />
             )}
             options={paymentTypeOptions}
@@ -210,12 +214,15 @@ function EditExpense({ expense, index, closeModal }) {
                 {...register("paymentLastFour", {
                   pattern: {
                     value: /^\d{4}$/,
+                    message: "Last four digits only",
                   },
                   required:
                     paymentTypeValue !== null &&
                     paymentTypeValue.toLowerCase() !== "cash" &&
                     "This field is required",
                 })}
+                error={formState?.errors?.paymentLastFour !== undefined}
+                helperText={formState?.errors?.paymentLastFour?.message}
               />
             )}
             options={paymentTypeLastFourOptions}
@@ -238,6 +245,8 @@ function EditExpense({ expense, index, closeModal }) {
                 {...register("expenseType", {
                   required: "This field is required.",
                 })}
+                error={formState?.errors?.expenseType !== undefined}
+                helperText={formState?.errors?.expenseType?.message}
               />
             )}
           />
@@ -261,8 +270,13 @@ function EditExpense({ expense, index, closeModal }) {
           defaultValue={expense.description}
           sx={{ width: "398px" }}
           {...register("description", {
-            maxLength: 100,
+            maxLength: {
+              value: 30,
+              message: "Max length of description is 30 words.",
+            },
           })}
+          error={formState?.errors?.description !== undefined}
+          helperText={formState?.errors?.description?.message}
         />
 
         <Box sx={{ display: "flex" }}>
