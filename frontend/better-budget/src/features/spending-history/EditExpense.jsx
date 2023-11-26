@@ -32,7 +32,7 @@ function EditExpense({ expense, index, closeModal }) {
   const { editExpense, isPending } = useEditExpense(index);
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
-  const { register, handleSubmit, formState, reset } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     defaultValues: {
       store: expense.store_id.store_name,
       expenseType: expense.expense_type,

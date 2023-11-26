@@ -11,8 +11,10 @@ import { DesktopDatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
 import AddExpense from "./AddExpense";
+import { useSearchParams } from "react-router-dom";
 
 function SpendingHistoryOperations() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [sortBySelection, setSortBySelection] = useState("");
   const [filterBySelection, setFilterBySelection] = useState("");
   const [fromDate, setFromDate] = useState(dayjs());
@@ -29,6 +31,18 @@ function SpendingHistoryOperations() {
 
   function handleSearchClick() {
     console.log("Searching");
+    if (filterBySelection === "" || filterBySelection === "none") {
+      searchParams.delete("filterBy");
+    } else if (filterBySelection !== "") {
+      searchParams.set("filterBy", filterBySelection);
+    }
+
+    if (sortBySelection === "" || sortBySelection === "none") {
+      searchParams.delete("sortBy");
+    } else if (sortBySelection !== "") {
+      searchParams.set("sortBy", sortBySelection);
+    }
+    setSearchParams(searchParams);
   }
 
   function handleOpenAddExpenseModal() {
@@ -76,8 +90,11 @@ function SpendingHistoryOperations() {
             label="Sort by"
             onChange={handleFilterChange}
           >
-            <MenuItem value={"Groceries"}>Groceries</MenuItem>
-            <MenuItem value={"Entertainment"}>Entertainment</MenuItem>
+            <MenuItem value={"none"}>
+              <i>None</i>
+            </MenuItem>
+            <MenuItem value={"groceries"}>Groceries</MenuItem>
+            <MenuItem value={"entertainment"}>Entertainment</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -91,6 +108,9 @@ function SpendingHistoryOperations() {
             label="Sort by"
             onChange={handleSortChange}
           >
+            <MenuItem value={"none"}>
+              <i>None</i>
+            </MenuItem>
             <MenuItem value={"cost-high-to-low"}>
               Sort by cost (high to low)
             </MenuItem>

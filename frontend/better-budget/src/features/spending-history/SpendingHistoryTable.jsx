@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import SpendingHistoryTableItem from "./SpendingHistoryTableItem";
-import useGetExpenses from "./useGetExpense";
+import useGetExpenses from "./useGetExpenses";
 
 function SpendingHistoryTable() {
   const { expenses, isLoading, isFetching } = useGetExpenses();

@@ -27,7 +27,7 @@ function AddExpense({ closeModal }) {
   const [paymentTypeValue, setPaymentTypeValue] = useState("");
   const [cost, setCost] = useState();
   const [reocurring, setReoccuring] = useState(false);
-  const { register, handleSubmit, formState, reset } = useForm();
+  const { register, handleSubmit, formState } = useForm();
   const { createExpense, isPending } = useCreateExpense();
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
