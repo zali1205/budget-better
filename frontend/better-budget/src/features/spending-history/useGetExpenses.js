@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "../../services/apiExpense";
-import { useSearchParams } from "react-router-dom";
+import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 
 function useGetExpenses() {
-  const [searchParams] = useSearchParams();
+  const { filter, sortBy } = useGetCurrentSearchParams();
 
   const {
     data: expenses,
     isLoading,
     isFetching,
   } = useQuery({
-    queryFn: getExpenses,
-    queryKey: ["expenses"],
+    queryFn: () => getExpenses(filter, sortBy),
+    queryKey: ["expenses", filter, sortBy],
   });
 
   return { expenses, isLoading, isFetching };

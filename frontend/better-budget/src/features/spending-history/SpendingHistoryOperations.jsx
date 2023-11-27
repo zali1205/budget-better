@@ -93,7 +93,7 @@ function SpendingHistoryOperations() {
             <MenuItem value={"none"}>
               <i>None</i>
             </MenuItem>
-            <MenuItem value={"groceries"}>Groceries</MenuItem>
+            <MenuItem value={"grocery"}>Groceries</MenuItem>
             <MenuItem value={"entertainment"}>Entertainment</MenuItem>
           </Select>
         </FormControl>
@@ -111,10 +111,10 @@ function SpendingHistoryOperations() {
             <MenuItem value={"none"}>
               <i>None</i>
             </MenuItem>
-            <MenuItem value={"cost-high-to-low"}>
+            <MenuItem value={"total_cost-high-to-low"}>
               Sort by cost (high to low)
             </MenuItem>
-            <MenuItem value={"cost-low-to-high"}>
+            <MenuItem value={"total_cost-low-to-high"}>
               Sort by cost (low to high)
             </MenuItem>
           </Select>

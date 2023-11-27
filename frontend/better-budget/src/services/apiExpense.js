@@ -1,16 +1,31 @@
+import supabase from "./supabase";
 import { getCurrentUserId } from "./apiAuthentication";
 import { createPayment, getPayment } from "./apiPayment";
 import { createStore, getStore } from "./apiStore";
-import supabase from "./supabase";
+import { toTitleCase } from "../utils/helper";
 
-export async function getExpenses() {
+export async function getExpenses(filter, sortBy) {
   // Supabase handles the filtering for user_id.
-  const { data, error } = await supabase
+  let query = supabase
     .from("expense")
     .select(
       "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
-    )
-    .order("date", { ascending: false });
+    );
+
+  if (filter) {
+    query = query.eq(filter.field, toTitleCase(filter.value));
+  }
+
+  if (sortBy) {
+    console.log("sorting");
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  } else {
+    query = query.order("date", { ascending: false });
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     throw new Error(error.message);

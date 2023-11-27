@@ -1,15 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editExpense as editExpenseApi } from "../../services/apiExpense";
+import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 
 function useEditExpense() {
   const queryClient = useQueryClient();
+  const { filter, sortBy } = useGetCurrentSearchParams();
 
   const { mutate: editExpense, isPending } = useMutation({
     mutationFn: ({ oldExpenseData, newExpenseData }) => {
       return editExpenseApi(oldExpenseData, newExpenseData);
     },
     onSuccess: (newExpense) => {
-      queryClient.setQueryData(["expenses"], (oldData) =>
+      queryClient.setQueryData(["expenses", filter, sortBy], (oldData) =>
         oldData.map((expense) => {
           if (expense.id === newExpense[0].id) {
             console.log("updated");
