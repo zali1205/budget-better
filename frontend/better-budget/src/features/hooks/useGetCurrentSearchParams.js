@@ -24,7 +24,10 @@ function useGetCurrentSearchParams() {
     }
   }
 
-  const sortBy = sortByRaw !== null ? { field, direction } : null;
+  const sortBy =
+    sortByRaw !== null
+      ? { field, direction, originalValue: searchParams.get("sortBy") }
+      : null;
 
   return { filter, sortBy };
 }

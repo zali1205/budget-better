@@ -12,14 +12,20 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import AddExpense from "./AddExpense";
 import { useSearchParams } from "react-router-dom";
+import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 
 function SpendingHistoryOperations() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [sortBySelection, setSortBySelection] = useState("");
-  const [filterBySelection, setFilterBySelection] = useState("");
   const [fromDate, setFromDate] = useState(dayjs());
   const [toDate, setToDate] = useState(dayjs());
   const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false);
+  const { filter, sortBy } = useGetCurrentSearchParams();
+  const [filterBySelection, setFilterBySelection] = useState(
+    filter !== null ? filter.value : ""
+  );
+  const [sortBySelection, setSortBySelection] = useState(
+    sortBy !== null ? sortBy.originalValue : ""
+  );
 
   function handleFilterChange(event) {
     setFilterBySelection(event.target.value);
