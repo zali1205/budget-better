@@ -29,7 +29,11 @@ function useGetCurrentSearchParams() {
       ? { field, direction, originalValue: searchParams.get("sortBy") }
       : null;
 
-  return { filter, sortBy };
+  const fromDate = searchParams.get("from");
+
+  const toDate = searchParams.get("to");
+
+  return { filter, sortBy, fromDate, toDate };
 }
 
 export default useGetCurrentSearchParams;

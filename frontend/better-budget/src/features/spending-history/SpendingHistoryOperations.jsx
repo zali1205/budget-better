@@ -16,10 +16,14 @@ import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 
 function SpendingHistoryOperations() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [fromDate, setFromDate] = useState(dayjs());
-  const [toDate, setToDate] = useState(dayjs());
   const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false);
-  const { filter, sortBy } = useGetCurrentSearchParams();
+  const { filter, sortBy, fromDate, toDate } = useGetCurrentSearchParams();
+  const [fromDateSelection, setFromDateSelection] = useState(
+    fromDate !== null ? dayjs(fromDate) : null
+  );
+  const [toDateSelection, setToDateSelection] = useState(
+    toDate !== null ? dayjs(toDate) : null
+  );
   const [filterBySelection, setFilterBySelection] = useState(
     filter !== null ? filter.value : ""
   );
@@ -48,6 +52,19 @@ function SpendingHistoryOperations() {
     } else if (sortBySelection !== "") {
       searchParams.set("sortBy", sortBySelection);
     }
+
+    if (fromDateSelection === null) {
+      searchParams.delete("from");
+    } else if (fromDateSelection) {
+      searchParams.set("from", fromDateSelection?.format("YYYY-MM-DD"));
+    }
+
+    if (toDateSelection === null) {
+      searchParams.delete("to");
+    } else if (toDateSelection) {
+      searchParams.set("to", toDateSelection?.format("YYYY-MM-DD"));
+    }
+
     setSearchParams(searchParams);
   }
 
@@ -72,19 +89,25 @@ function SpendingHistoryOperations() {
       </Box>
       <DesktopDatePicker
         label="From"
-        slotProps={{ textField: { size: "small" } }}
+        slotProps={{
+          textField: { size: "small" },
+          actionBar: { actions: ["clear"] },
+        }}
         sx={{ paddingRight: 1, width: 200 }}
-        value={fromDate}
-        onChange={(newDate) => setFromDate(newDate)}
-        maxDate={toDate}
+        value={fromDateSelection}
+        onChange={(newDate) => setFromDateSelection(newDate)}
+        maxDate={toDateSelection}
       />
       <DesktopDatePicker
         label="To"
         sx={{ paddingRight: 1, width: 200 }}
-        slotProps={{ textField: { size: "small" } }}
-        value={toDate}
-        onChange={(newDate) => setToDate(newDate)}
-        minDate={fromDate}
+        slotProps={{
+          textField: { size: "small" },
+          actionBar: { actions: ["clear"] },
+        }}
+        value={toDateSelection}
+        onChange={(newDate) => setToDateSelection(newDate)}
+        minDate={fromDateSelection}
       />
       <Box sx={{ width: 120, paddingRight: 1 }}>
         <FormControl fullWidth size="small">

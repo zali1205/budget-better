@@ -4,7 +4,7 @@ import { createPayment, getPayment } from "./apiPayment";
 import { createStore, getStore } from "./apiStore";
 import { toTitleCase } from "../utils/helper";
 
-export async function getExpenses(filter, sortBy) {
+export async function getExpenses(filter, sortBy, fromDate, toDate) {
   // Supabase handles the filtering for user_id.
   let query = supabase
     .from("expense")
@@ -23,6 +23,14 @@ export async function getExpenses(filter, sortBy) {
     });
   } else {
     query = query.order("date", { ascending: false });
+  }
+
+  if (fromDate) {
+    query = query.gte("date", fromDate);
+  }
+
+  if (toDate) {
+    query = query.lte("date", toDate);
   }
 
   const { data, error } = await query;
