@@ -3,13 +3,15 @@ import { getCurrentUserId } from "./apiAuthentication";
 import { createPayment, getPayment } from "./apiPayment";
 import { createStore, getStore } from "./apiStore";
 import { toTitleCase } from "../utils/helper";
+import { SIZE_PER_PAGE } from "../utils/constants";
 
-export async function getExpenses(filter, sortBy, fromDate, toDate) {
+export async function getExpenses(filter, sortBy, fromDate, toDate, page) {
   // Supabase handles the filtering for user_id.
   let query = supabase
     .from("expense")
     .select(
-      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
+      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type",
+      { count: "exact" }
     );
 
   if (filter) {
@@ -33,13 +35,19 @@ export async function getExpenses(filter, sortBy, fromDate, toDate) {
     query = query.lte("date", toDate);
   }
 
-  const { data, error } = await query;
+  if (page) {
+    const from = (page - 1) * SIZE_PER_PAGE;
+    const to = from + SIZE_PER_PAGE - 1;
+    query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     throw new Error(error.message);
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function createExpense(expenseData) {

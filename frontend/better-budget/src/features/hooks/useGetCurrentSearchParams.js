@@ -33,7 +33,9 @@ function useGetCurrentSearchParams() {
 
   const toDate = searchParams.get("to");
 
-  return { filter, sortBy, fromDate, toDate };
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+
+  return { filter, sortBy, fromDate, toDate, page };
 }
 
 export default useGetCurrentSearchParams;

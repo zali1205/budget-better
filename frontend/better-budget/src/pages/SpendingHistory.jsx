@@ -15,7 +15,15 @@ function SpendingHistory() {
       >
         <SpendingHistoryOperations />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          paddingTop: 2,
+        }}
+      >
         <SpendingHistoryTable />
       </Box>
     </>

@@ -3,18 +3,19 @@ import { getExpenses } from "../../services/apiExpense";
 import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 
 function useGetExpenses() {
-  const { filter, sortBy, fromDate, toDate } = useGetCurrentSearchParams();
+  const { filter, sortBy, fromDate, toDate, page } =
+    useGetCurrentSearchParams();
 
   const {
-    data: expenses,
+    data: { data: expenses, count } = {},
     isLoading,
     isFetching,
   } = useQuery({
-    queryFn: () => getExpenses(filter, sortBy, fromDate, toDate),
-    queryKey: ["expenses", filter, sortBy, fromDate, toDate],
+    queryFn: () => getExpenses(filter, sortBy, fromDate, toDate, page),
+    queryKey: ["expenses", filter, sortBy, fromDate, toDate, page],
   });
 
-  return { expenses, isLoading, isFetching };
+  return { expenses, count, isLoading, isFetching };
 }
 
 export default useGetExpenses;

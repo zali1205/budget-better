@@ -64,7 +64,7 @@ function SpendingHistoryOperations() {
     } else if (toDateSelection) {
       searchParams.set("to", toDateSelection?.format("YYYY-MM-DD"));
     }
-
+    searchParams.delete("page");
     setSearchParams(searchParams);
   }
 
