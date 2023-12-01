@@ -11,6 +11,7 @@ function SpendingHistory() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "flex-end",
+          paddingX: 5,
         }}
       >
         <SpendingHistoryOperations />
@@ -22,6 +23,7 @@ function SpendingHistory() {
           alignItems: "center",
           flexDirection: "column",
           paddingTop: 2,
+          paddingX: 5,
         }}
       >
         <SpendingHistoryTable />
