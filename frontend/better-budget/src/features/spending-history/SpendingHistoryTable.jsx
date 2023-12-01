@@ -8,12 +8,11 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
 } from "@mui/material";
 import SpendingHistoryTableItem from "./SpendingHistoryTableItem";
 import useGetExpenses from "./useGetExpenses";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import useGetCurrentSearchParams from "../hooks/useGetCurrentSearchParams";
 import { SIZE_PER_PAGE } from "../../utils/constants";
@@ -32,6 +31,10 @@ function SpendingHistoryTable() {
     setPage(value);
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [expenses]);
+
   if (isFetching || isLoading) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", height: "75vh" }}>
@@ -48,6 +51,7 @@ function SpendingHistoryTable() {
         alignItems: "center",
         flexDirection: "column",
         width: { xs: "75%", md: "100%" },
+        overflow: "hidden",
       }}
     >
       <TableContainer component={Paper}>
