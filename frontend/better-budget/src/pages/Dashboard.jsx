@@ -1,5 +1,6 @@
 import { Box, Grid, Paper } from "@mui/material";
-import TotalMonthlyExpenses from "../features/dashboard/TotalMonthlyExpenses";
+import TotalMonthlyExpenses from "../features/dashboard/TotalCostMonthlyExpenses";
+import TotalMonthlyExpensesPieChartBreakdown from "../features/dashboard/TotalMonthlyExpensesPieChartBreakdown";
 
 function Dashboard() {
   return (
@@ -17,7 +18,7 @@ function Dashboard() {
             <TotalMonthlyExpenses />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={6}>
           <Paper
             sx={{
               display: "flex",
@@ -26,19 +27,7 @@ function Dashboard() {
               bgcolor: "background.paper",
             }}
           >
-            <div>Total Expenses</div>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <Paper
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              height: 240,
-              bgcolor: "background.paper",
-            }}
-          >
-            <div>Total Expenses</div>
+            <TotalMonthlyExpensesPieChartBreakdown />
           </Paper>
         </Grid>
         <Grid item xs={12} md={3}>

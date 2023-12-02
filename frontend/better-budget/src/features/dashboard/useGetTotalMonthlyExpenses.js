@@ -3,15 +3,15 @@ import { getTotalMonthlyExpenses } from "../../services/apiExpense";
 
 function useGetTotalMonthlyExpenses(date) {
   const {
-    data: totalMonthlyExpenses,
+    data: monthlyExpenses,
     isLoading,
-    isFetching,
+    isPending,
   } = useQuery({
     queryFn: () => getTotalMonthlyExpenses(date),
-    queryKey: ["totalExpenses"],
+    queryKey: ["totalMonthlyExpenses"],
   });
 
-  return { totalMonthlyExpenses, isLoading, isFetching };
+  return { monthlyExpenses, isLoading, isPending };
 }
 
 export default useGetTotalMonthlyExpenses;

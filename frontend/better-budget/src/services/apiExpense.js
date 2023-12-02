@@ -19,7 +19,6 @@ export async function getExpenses(filter, sortBy, fromDate, toDate, page) {
   }
 
   if (sortBy) {
-    console.log("sorting");
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
@@ -79,8 +78,6 @@ export async function createExpense(expenseData) {
 
   const userId = await getCurrentUserId();
 
-  console.log(store);
-
   const { data, error } = await supabase
     .from("expense")
     .insert({
@@ -103,7 +100,6 @@ export async function createExpense(expenseData) {
 }
 
 export async function editExpense(oldExpenseData, newExpenseData) {
-  console.log(oldExpenseData, newExpenseData);
   const storeName = newExpenseData.store.toLowerCase();
   const paymentType = newExpenseData.paymentType.toLowerCase();
 
@@ -168,13 +164,26 @@ export async function deleteExpense(expenseId) {
 }
 
 export async function getTotalMonthlyExpenses(date) {
-  const dateInput = new Date(date).toISOString();
+  const dateInput = new Date(date);
 
-  const { data, error } = await supabase.rpc("total_expenses", {
-    date_input: dateInput,
-  });
+  const firstDay = new Date(
+    dateInput.getFullYear(),
+    dateInput.getMonth(),
+    0
+  ).toISOString();
+  const lastDay = new Date(
+    dateInput.getFullYear(),
+    dateInput.getMonth() + 1,
+    0
+  ).toISOString();
 
-  console.log(data);
+  const { data, error } = await supabase
+    .from("expense")
+    .select(
+      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
+    )
+    .gte("date", firstDay)
+    .lte("date", lastDay);
 
   if (error) {
     throw new Error(error.message);
@@ -183,21 +192,16 @@ export async function getTotalMonthlyExpenses(date) {
   return data;
 }
 
-// const firstDay = new Date(
-//   dateInput.getFullYear(),
-//   dateInput.getMonth(),
-//   0
-// ).toISOString();
-// const lastDay = new Date(
-//   dateInput.getFullYear(),
-//   dateInput.getMonth() + 1,
-//   0
-// ).toISOString();
-// console.log(firstDay, lastDay);
-// const { data, error } = await supabase
-//   .from("expense")
-//   .select(
-//     "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
-//   )
-//   .gte("date", firstDay)
-//   .lte("date", lastDay);
+export async function getTotalCostMonthlyExpenses(date) {
+  const dateInput = new Date(date).toISOString();
+
+  const { data, error } = await supabase.rpc("total_expenses", {
+    date_input: dateInput,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

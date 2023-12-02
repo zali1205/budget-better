@@ -74,8 +74,6 @@ function AddExpense({ closeModal }) {
     );
   }
 
-  console.log(paymentTypeValue);
-
   const paymentTypeOptions = [
     ...new Set(payments.map((payment) => toTitleCase(payment.payment_type))),
   ];

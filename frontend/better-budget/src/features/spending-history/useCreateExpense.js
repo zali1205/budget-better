@@ -10,7 +10,8 @@ function useCreateExpense() {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       queryClient.invalidateQueries({ queryKey: ["payments"] });
-      queryClient.invalidateQueries({ queryKey: ["totalExpenses"] });
+      queryClient.invalidateQueries({ queryKey: ["totalCostMonthlyExpenses"] });
+      queryClient.invalidateQueries({ queryKey: ["totalMonthlyExpenses"] });
     },
   });
 
