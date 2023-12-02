@@ -28,6 +28,7 @@ function useEditExpense() {
       );
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({ queryKey: ["totalExpenses"] });
     },
     onError: (error) => {
       console.error(error);

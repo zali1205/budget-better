@@ -7,6 +7,7 @@ function useDeleteExpense() {
     mutationFn: (expenseId) => deleteExpenseApi(expenseId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
+      queryClient.invalidateQueries({ queryKey: ["totalExpenses"] });
     },
     onError: (error) => {
       console.error(error);

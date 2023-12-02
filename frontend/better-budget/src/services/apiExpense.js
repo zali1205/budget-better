@@ -24,7 +24,9 @@ export async function getExpenses(filter, sortBy, fromDate, toDate, page) {
       ascending: sortBy.direction === "asc",
     });
   } else {
-    query = query.order("date", { ascending: false });
+    query = query
+      .order("date", { ascending: false })
+      .order("id", { ascending: false });
   }
 
   if (fromDate) {
@@ -164,3 +166,38 @@ export async function deleteExpense(expenseId) {
 
   return data;
 }
+
+export async function getTotalMonthlyExpenses(date) {
+  const dateInput = new Date(date).toISOString();
+
+  const { data, error } = await supabase.rpc("total_expenses", {
+    date_input: dateInput,
+  });
+
+  console.log(data);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+// const firstDay = new Date(
+//   dateInput.getFullYear(),
+//   dateInput.getMonth(),
+//   0
+// ).toISOString();
+// const lastDay = new Date(
+//   dateInput.getFullYear(),
+//   dateInput.getMonth() + 1,
+//   0
+// ).toISOString();
+// console.log(firstDay, lastDay);
+// const { data, error } = await supabase
+//   .from("expense")
+//   .select(
+//     "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
+//   )
+//   .gte("date", firstDay)
+//   .lte("date", lastDay);

@@ -74,6 +74,8 @@ function AddExpense({ closeModal }) {
     );
   }
 
+  console.log(paymentTypeValue);
+
   const paymentTypeOptions = [
     ...new Set(payments.map((payment) => toTitleCase(payment.payment_type))),
   ];
@@ -203,7 +205,7 @@ function AddExpense({ closeModal }) {
                   },
                   required:
                     paymentTypeValue !== null &&
-                    paymentTypeValue !== "cash" &&
+                    paymentTypeValue.toLowerCase() !== "cash" &&
                     "This field is required",
                 })}
                 error={formState?.errors?.paymentLastFour !== undefined}

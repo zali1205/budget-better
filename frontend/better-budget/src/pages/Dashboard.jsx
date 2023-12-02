@@ -1,4 +1,5 @@
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
+import TotalMonthlyExpenses from "../features/dashboard/TotalMonthlyExpenses";
 
 function Dashboard() {
   return (
@@ -13,7 +14,7 @@ function Dashboard() {
               bgcolor: "background.paper",
             }}
           >
-            <div>Total Expenses</div>
+            <TotalMonthlyExpenses />
           </Paper>
         </Grid>
         <Grid item xs={12} md={3}>
