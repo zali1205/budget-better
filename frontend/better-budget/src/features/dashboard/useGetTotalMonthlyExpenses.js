@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getTotalMonthlyExpenses } from "../../services/apiExpense";
 
-function useGetTotalExpenses(date) {
+function useGetTotalMonthlyExpenses(date) {
   const {
     data: totalMonthlyExpenses,
     isLoading,
@@ -14,4 +14,4 @@ function useGetTotalExpenses(date) {
   return { totalMonthlyExpenses, isLoading, isFetching };
 }
 
-export default useGetTotalExpenses;
+export default useGetTotalMonthlyExpenses;

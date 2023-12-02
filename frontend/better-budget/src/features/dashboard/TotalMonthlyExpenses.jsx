@@ -1,11 +1,11 @@
 import { CircularProgress, Container, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import useGetTotalExpenses from "./useGetTotalExpenses";
+import useGetTotalMonthlyExpenses from "./useGetTotalMonthlyExpenses";
 
 function TotalMonthlyExpenses() {
   const todaysDate = new dayjs().format("MMM, DD, YYYY");
   const { totalMonthlyExpenses, isLoading, isPending } =
-    useGetTotalExpenses(todaysDate);
+    useGetTotalMonthlyExpenses(todaysDate);
 
   if (isLoading || isPending) {
     return <CircularProgress />;
