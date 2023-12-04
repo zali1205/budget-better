@@ -4,7 +4,13 @@ import { Box } from "@mui/material";
 
 function AppLayout() {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
       <AppBar />
       <Box
         component="main"
@@ -13,8 +19,6 @@ function AppLayout() {
           marginTop: "52.5px",
           p: 2,
           width: { sm: `calc(100% - ${240}px)` },
-          height: "100vh",
-          backgroundColor: "#f5f5f5",
           overflow: "auto",
         }}
       >
