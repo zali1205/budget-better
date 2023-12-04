@@ -64,8 +64,8 @@ function AddExpense({ closeModal }) {
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
           flexDirection: "column",
+          alignItems: "center",
           padding: 10,
         }}
       >

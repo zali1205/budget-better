@@ -7,7 +7,19 @@ function LastThirtyDaysGraph() {
     useGetLastThirtyDayExpenses();
 
   if (isLoading || isPending) {
-    return <CircularProgress />;
+    return (
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress size={50} />
+      </Container>
+    );
   }
 
   // Consolidating the expenses into each day

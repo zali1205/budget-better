@@ -9,7 +9,19 @@ function TotalMonthlyExpensesPieChartBreakdown() {
     useGetTotalMonthlyExpenses(todaysDate);
 
   if (isLoading || isPending) {
-    return <CircularProgress />;
+    return (
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <CircularProgress size={50} />
+      </Container>
+    );
   }
 
   let expenseTypeTotalCosts = {};
@@ -35,8 +47,6 @@ function TotalMonthlyExpensesPieChartBreakdown() {
     index++;
   }
 
-  console.log(monthlyExpenses);
-
   return (
     <Container
       sx={{
@@ -53,6 +63,7 @@ function TotalMonthlyExpensesPieChartBreakdown() {
               arcLabel: (item) => `$${item.value}`,
               arcLabelMinAngle: 50,
               data: monthlyExpensesData,
+              valueFormatter: (item) => `$${item.value}`,
             },
           ]}
           width={400}
