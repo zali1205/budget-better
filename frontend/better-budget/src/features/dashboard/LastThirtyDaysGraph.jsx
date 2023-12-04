@@ -1,6 +1,6 @@
 import { CircularProgress, Container, Typography } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
-import useGetLastThirtyDayExpenses from "./useGetLastThirtyDayExpenses";
+import useGetLastThirtyDayExpenses from "./useGetLastThirtyDaysExpenses";
 
 function LastThirtyDaysGraph() {
   const { lastThirtyDayExpenses, isLoading, isPending } =

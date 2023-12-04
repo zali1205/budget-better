@@ -204,7 +204,7 @@ export async function getTotalCostMonthlyExpenses(date) {
   return data;
 }
 
-export async function getLastThirtyDayExpenses() {
+export async function getLastThirtyDaysExpenses() {
   const today = new Date();
   const lastThirtyDay = new Date(new Date().setDate(today.getDate() - 30));
   console.log(today, lastThirtyDay);

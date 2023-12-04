@@ -30,7 +30,7 @@ function useEditExpense() {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       queryClient.invalidateQueries({ queryKey: ["totalCostMonthlyExpenses"] });
       queryClient.invalidateQueries({ queryKey: ["totalMonthlyExpenses"] });
-      queryClient.invalidateQueries({ queryKey: ["lastThirtyDayExpenses"] });
+      queryClient.invalidateQueries({ queryKey: ["lastThirtyDaysExpenses"] });
     },
     onError: (error) => {
       console.error(error);
