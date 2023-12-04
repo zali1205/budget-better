@@ -1,6 +1,7 @@
 import { Box, Grid, Paper } from "@mui/material";
 import TotalMonthlyExpenses from "../features/dashboard/TotalCostMonthlyExpenses";
 import TotalMonthlyExpensesPieChartBreakdown from "../features/dashboard/TotalMonthlyExpensesPieChartBreakdown";
+import LastThirtyDaysGraph from "../features/dashboard/LastThirtyDaysGraph";
 
 function Dashboard() {
   return (
@@ -47,11 +48,11 @@ function Dashboard() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              height: 240,
+              height: 350,
               bgcolor: "background.paper",
             }}
           >
-            <div>Graph</div>
+            <LastThirtyDaysGraph />
           </Paper>
         </Grid>
         <Grid item xs={12}>

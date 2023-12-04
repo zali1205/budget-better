@@ -179,9 +179,7 @@ export async function getTotalMonthlyExpenses(date) {
 
   const { data, error } = await supabase
     .from("expense")
-    .select(
-      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, description, total_cost, expense_type"
-    )
+    .select("total_cost, expense_type")
     .gte("date", firstDay)
     .lte("date", lastDay);
 
@@ -198,6 +196,23 @@ export async function getTotalCostMonthlyExpenses(date) {
   const { data, error } = await supabase.rpc("total_expenses", {
     date_input: dateInput,
   });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function getLastThirtyDayExpenses() {
+  const today = new Date();
+  const lastThirtyDay = new Date(new Date().setDate(today.getDate() - 30));
+  console.log(today, lastThirtyDay);
+  const { data, error } = await supabase
+    .from("expense")
+    .select("total_cost, date")
+    .gt("date", lastThirtyDay.toISOString())
+    .lte("date", today.toISOString());
 
   if (error) {
     throw new Error(error.message);

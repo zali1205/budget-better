@@ -24,10 +24,10 @@ function TotalMonthlyExpenses() {
       }}
     >
       <Typography variant="h6">Total Monthly Expenses</Typography>
-      <Typography sx={{ paddingTop: 4 }} fontSize={25}>
+      <Typography sx={{ paddingTop: 4 }} fontSize={30}>
         ${totalCostMonthlyExpenses}
       </Typography>
-      <Typography sx={{ paddingTop: 2 }}>As of: {todaysDate}</Typography>
+      <Typography sx={{ paddingTop: 4 }}>As of {todaysDate}</Typography>
     </Container>
   );
 }
