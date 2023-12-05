@@ -220,3 +220,20 @@ export async function getLastThirtyDaysExpenses() {
 
   return data;
 }
+
+export async function getRecentExpenses(upTo) {
+  const { data, error } = await supabase
+    .from("expense")
+    .select(
+      "id, date, store_id(store_name), payment_method_id(payment_type, payment_last_four_digits), reoccuring, total_cost, expense_type"
+    )
+    .order("date", { ascending: false })
+    .order("id", { ascending: false })
+    .range(0, upTo ? upTo - 1 : 4);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}

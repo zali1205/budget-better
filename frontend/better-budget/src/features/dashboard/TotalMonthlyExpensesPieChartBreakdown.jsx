@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import useGetTotalMonthlyExpenses from "./useGetTotalMonthlyExpenses";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ function TotalMonthlyExpensesPieChartBreakdown() {
 
   if (isLoading || isPending) {
     return (
-      <Container
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -20,7 +20,7 @@ function TotalMonthlyExpensesPieChartBreakdown() {
         }}
       >
         <CircularProgress size={50} />
-      </Container>
+      </Box>
     );
   }
 
@@ -48,9 +48,10 @@ function TotalMonthlyExpensesPieChartBreakdown() {
   }
 
   return (
-    <Container
+    <Box
       sx={{
-        paddingTop: 1,
+        paddingY: 1,
+        paddingX: 2,
         textAlign: "center",
         flexDirection: "column",
       }}
@@ -70,7 +71,7 @@ function TotalMonthlyExpensesPieChartBreakdown() {
           height={190}
         />
       </Box>
-    </Container>
+    </Box>
   );
 }
 

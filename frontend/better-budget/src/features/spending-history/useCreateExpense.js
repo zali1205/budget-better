@@ -13,6 +13,7 @@ function useCreateExpense() {
       queryClient.invalidateQueries({ queryKey: ["totalCostMonthlyExpenses"] });
       queryClient.invalidateQueries({ queryKey: ["totalMonthlyExpenses"] });
       queryClient.invalidateQueries({ queryKey: ["lastThirtyDaysExpenses"] });
+      queryClient.invalidateQueries({ queryKey: ["recentExpenses"] });
     },
   });
 

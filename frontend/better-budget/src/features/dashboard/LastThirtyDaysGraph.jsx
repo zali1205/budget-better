@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import useGetLastThirtyDayExpenses from "./useGetLastThirtyDaysExpenses";
 
@@ -8,7 +8,7 @@ function LastThirtyDaysGraph() {
 
   if (isLoading || isPending) {
     return (
-      <Container
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -18,7 +18,7 @@ function LastThirtyDaysGraph() {
         }}
       >
         <CircularProgress size={50} />
-      </Container>
+      </Box>
     );
   }
 
@@ -64,7 +64,7 @@ function LastThirtyDaysGraph() {
     });
 
   return (
-    <Container sx={{ textAlign: "center", paddingTop: 1 }}>
+    <Box sx={{ textAlign: "center", paddingY: 1, paddingX: 2 }}>
       <Typography variant="h6">Last 30 Days Spending History</Typography>
       <LineChart
         xAxis={[
@@ -83,7 +83,7 @@ function LastThirtyDaysGraph() {
         ]}
         height={300}
       />
-    </Container>
+    </Box>
   );
 }
 

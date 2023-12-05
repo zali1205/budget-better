@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import useGetTotalCostMonthlyExpenses from "./useGetTotalCostMonthlyExpenses";
 
@@ -9,7 +9,7 @@ function TotalMonthlyExpenses() {
 
   if (isLoading || isPending) {
     return (
-      <Container
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -19,12 +19,12 @@ function TotalMonthlyExpenses() {
         }}
       >
         <CircularProgress size={50} />
-      </Container>
+      </Box>
     );
   }
 
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -32,7 +32,8 @@ function TotalMonthlyExpenses() {
         justifyItems: "center",
         textAlign: "center",
         height: "100%",
-        paddingTop: 1,
+        paddingY: 1,
+        paddingX: 2,
       }}
     >
       <Typography variant="h6">Total Monthly Expenses</Typography>
@@ -40,7 +41,7 @@ function TotalMonthlyExpenses() {
         ${totalCostMonthlyExpenses}
       </Typography>
       <Typography sx={{ paddingTop: 4 }}>As of {todaysDate}</Typography>
-    </Container>
+    </Box>
   );
 }
 

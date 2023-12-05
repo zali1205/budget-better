@@ -10,6 +10,7 @@ function useDeleteExpense() {
       queryClient.invalidateQueries({ queryKey: ["totalCostMonthlyExpenses"] });
       queryClient.invalidateQueries({ queryKey: ["totalMonthlyExpenses"] });
       queryClient.invalidateQueries({ queryKey: ["lastThirtyDaysExpenses"] });
+      queryClient.invalidateQueries({ queryKey: ["recentExpenses"] });
     },
     onError: (error) => {
       console.error(error);
