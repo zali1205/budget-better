@@ -11,21 +11,10 @@ function useEditExpense() {
     mutationFn: ({ oldExpenseData, newExpenseData }) => {
       return editExpenseApi(oldExpenseData, newExpenseData);
     },
-    onSuccess: (newExpense) => {
-      queryClient.setQueryData(
-        ["expenses", filter, sortBy, fromDate, toDate, page],
-        ({ data: oldData, count }) => {
-          const newData = oldData.map((expense) => {
-            if (expense.id === newExpense[0].id) {
-              console.log("updated");
-              return newExpense[0];
-            }
-            return expense;
-          });
-          console.log(newData);
-          return { data: newData, count };
-        }
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["expenses", filter, sortBy, fromDate, toDate, page],
+      });
       queryClient.invalidateQueries({ queryKey: ["stores"] });
       queryClient.invalidateQueries({ queryKey: ["payments"] });
       queryClient.invalidateQueries({ queryKey: ["totalCostMonthlyExpenses"] });
@@ -42,3 +31,18 @@ function useEditExpense() {
 }
 
 export default useEditExpense;
+
+// queryClient.setQueryData(
+//   ["expenses", filter, sortBy, fromDate, toDate, page],
+//   ({ data: oldData, count }) => {
+//     const newData = oldData.map((expense) => {
+//       if (expense.id === newExpense[0].id) {
+//         console.log("updated");
+//         return newExpense[0];
+//       }
+//       return expense;
+//     });
+//     console.log(newData);
+//     return { data: newData, count };
+//   }
+// );

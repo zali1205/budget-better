@@ -45,7 +45,7 @@ function EditExpense({ expense, index, closeModal }) {
     editExpense({
       oldExpenseData: expense,
       newExpenseData: {
-        date: purchaseDate.toISOString(),
+        date: purchaseDate,
         store: data.store,
         paymentType: data.paymentType,
         paymentLastFour:

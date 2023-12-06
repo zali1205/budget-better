@@ -62,7 +62,7 @@ function TotalMonthlyExpensesPieChartBreakdown() {
           series={[
             {
               arcLabel: (item) => `$${item.value}`,
-              arcLabelMinAngle: 50,
+              arcLabelMinAngle: 55,
               data: monthlyExpensesData,
               valueFormatter: (item) => `$${item.value}`,
             },

@@ -32,9 +32,10 @@ function AddExpense({ closeModal }) {
   const { stores, isLoading: isLoadingStores } = useGetStores();
   const { payments, isLoading: isLoadingPayments } = useGetPayments();
 
+  console.log(dayjs().format("YYYY-MM-DD"));
   function onSubmit(data) {
     createExpense({
-      date: purchaseDate.toISOString(),
+      date: purchaseDate,
       store: data.store,
       paymentType: data.paymentType,
       paymentLastFour:

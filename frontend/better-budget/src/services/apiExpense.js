@@ -82,7 +82,7 @@ export async function createExpense(expenseData) {
     .from("expense")
     .insert({
       user_id: userId,
-      date: expenseData.date,
+      date: expenseData.date.format("YYYY-MM-DD"),
       store_id: store[0].id,
       payment_method_id: payment_method[0].id,
       reoccuring: expenseData.reoccuring,
@@ -130,7 +130,7 @@ export async function editExpense(oldExpenseData, newExpenseData) {
     .from("expense")
     .update({
       user_id: userId,
-      date: newExpenseData.date,
+      date: newExpenseData.date.format("YYYY-MM-DD"),
       store_id: store[0].id,
       payment_method_id: payment_method[0].id,
       reoccuring: newExpenseData.reoccuring,
