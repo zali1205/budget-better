@@ -1,11 +1,15 @@
-import { AppBar as MuiAppBar, Typography } from "@mui/material";
-import Signout from "../features/authentication/Signout";
 import { useState } from "react";
+import { IconButton, AppBar as MuiAppBar, Typography } from "@mui/material";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { useLocation } from "react-router-dom";
+import { useColorMode } from "../features/contexts/ColorModeContext";
+import Signout from "../features/authentication/Signout";
 import AppBarMenuButton from "./AppBarMenuButton";
 import Drawer from "./Drawer";
-import { useLocation } from "react-router-dom";
 
 function AppBar() {
+  const { colorMode, mode } = useColorMode();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const selected = location.pathname.split("/").at(1);
@@ -35,6 +39,9 @@ function AppBar() {
         >
           {selectedFiltered}
         </Typography>
+        <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+          {mode === "light" ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
         <Signout />
       </MuiAppBar>
       <Drawer mobileOpen={mobileOpen} handleMobileOpen={handleMobileOpen} />

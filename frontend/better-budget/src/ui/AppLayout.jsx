@@ -8,7 +8,6 @@ function AppLayout() {
       sx={{
         display: "flex",
         height: "100vh",
-        backgroundColor: "#f5f5f5",
       }}
     >
       <AppBar />
