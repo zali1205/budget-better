@@ -99,8 +99,8 @@ function AddExpense({ closeModal }) {
     >
       <Avatar
         sx={{
-          color: "white",
-          backgroundColor: "#1976d2",
+          color: "primary.contrastText",
+          backgroundColor: "primary.main",
         }}
       >
         <PointOfSaleIcon fontSize="medium" />

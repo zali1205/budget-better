@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const getDesignTokens = (mode) => ({
   palette: {
@@ -28,7 +29,7 @@ const colorModeContext = createContext({
 });
 
 function ColorModeContext({ children }) {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useLocalStorage("darkModeSetting", "light");
 
   const colorMode = useMemo(
     () => ({
@@ -37,7 +38,7 @@ function ColorModeContext({ children }) {
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
       },
     }),
-    []
+    [setMode]
   );
 
   // Update the theme only if the mode changes

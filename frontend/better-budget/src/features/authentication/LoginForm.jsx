@@ -50,8 +50,8 @@ function LoginForm() {
     >
       <Avatar
         sx={{
-          color: "white",
-          backgroundColor: "#1976d2",
+          color: "primary.contrastText",
+          backgroundColor: "primary.main",
         }}
       >
         <LockIcon fontSize="medium" />
