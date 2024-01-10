@@ -18,8 +18,9 @@ public class BackendApiApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(UserRepository userRepository) {
 		return args -> {
-            var user = new UserEntity();
-            user.setId(1L);
+            UserEntity user = new UserEntity();
+			user.setFirstName("test");
+			user.setLastName("test");
             user.setEmail("test@test.com");
             user.setPassword("$2a$12$Zk4OSv5mG8qfHR6ZsVVBYOpi2XgZNezY/Wd4bLVH03/pM20EwdZta"); // test
             user.setRole("ROLE_ADMIN");

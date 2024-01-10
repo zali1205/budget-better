@@ -22,11 +22,17 @@ import lombok.Setter;
 public class UserEntity {
   
     @Id
-    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
-    @Column(name = "id", updatable = false)
+    @SequenceGenerator(name = "user_entity_sequence", sequenceName = "user_entity_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_entity_sequence")
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     
+    @Column(name = "first_name", updatable = true, nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", updatable = true, nullable = false)
+    private String lastName;
+
     @Column(name = "email", updatable = true, nullable = false)
     private String email;
 

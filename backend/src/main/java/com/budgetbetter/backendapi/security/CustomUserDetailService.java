@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.budgetbetter.backendapi.service.UserService;
+import com.budgetbetter.backendapi.entity.UserEntity;
+import com.budgetbetter.backendapi.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,11 +17,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userService.findByEmail(username).orElseThrow();
+        UserEntity user = userRepository.findByEmail(username);
+        
+        if (user == null) {
+            throw new NullPointerException();
+        }
+
         return UserPrincipal.builder()
                     .userId(user.getId())
                     .email(user.getEmail())
