@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Component
 public class JwtToPrincipalConverter {
+
     public UserPrincipal convert(DecodedJWT jwt) {
         return UserPrincipal.builder()
                 .userId(Long.parseLong(jwt.getSubject()))
