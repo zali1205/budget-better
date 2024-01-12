@@ -1,5 +1,7 @@
 package com.budgetbetter.backendapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class StoreEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "app_user_id", updatable = false, nullable = false)
     private UserEntity appUser;

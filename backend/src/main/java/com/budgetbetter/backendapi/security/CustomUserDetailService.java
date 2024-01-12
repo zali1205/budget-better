@@ -24,7 +24,7 @@ public class CustomUserDetailService implements UserDetailsService {
         UserEntity user = userRepository.findByEmail(username);
 
         if (user == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("User does not exist.");
         }
 
         return UserPrincipal.builder()

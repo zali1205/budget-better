@@ -23,6 +23,7 @@ public class WebSecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailService customUserDetailService;
     private final UnauthorizedHandler unauthorizedHandler;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
@@ -34,7 +35,9 @@ public class WebSecurityConfig {
             .securityMatcher("/**").sessionManagement(sessionManagementConfigurer
                 -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .formLogin(AbstractHttpConfigurer::disable)
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+            .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint(unauthorizedHandler)
+                                                .accessDeniedHandler(customAccessDeniedHandler))
             .authorizeHttpRequests(registry -> registry
                 .requestMatchers("/user/signup").permitAll()
                 .requestMatchers("/auth/login").permitAll()
