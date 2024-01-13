@@ -50,4 +50,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "appUser", orphanRemoval = true)
     private List<StoreEntity> stores = new ArrayList<>();
 
+    @OneToMany(mappedBy = "appUser", orphanRemoval = true)
+    private List<PaymentEntity> payments = new ArrayList<>();
+
 }
