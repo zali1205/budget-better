@@ -47,10 +47,16 @@ public class UserEntity {
     @Column(name = "role", updatable = false, nullable = false)
     private String role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "appUser", orphanRemoval = true)
     private List<StoreEntity> stores = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "appUser", orphanRemoval = true)
     private List<PaymentEntity> payments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "appUser", orphanRemoval = true)
+    private List<ExpenseEntity> expenses = new ArrayList<>();
 
 }
