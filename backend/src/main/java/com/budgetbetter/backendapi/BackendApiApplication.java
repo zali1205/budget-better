@@ -1,6 +1,6 @@
 package com.budgetbetter.backendapi;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -53,7 +53,7 @@ public class BackendApiApplication {
 			expense.setReoccuring(false);
 			expense.setTotalCost(10.98);
 			expense.setExpenseType("housing");
-			expense.setDate(new Date());
+			expense.setDate(LocalDate.parse("2020-10-10"));
 			expenseRepository.save(expense);
 		};
 	}

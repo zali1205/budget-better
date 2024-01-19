@@ -2,7 +2,6 @@ package com.budgetbetter.backendapi.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,7 @@ public class StoreController {
     @GetMapping("/stores")
     public List<StoreEntity> getStores(@AuthenticationPrincipal UserPrincipal principal) {
         List<StoreEntity> stores = storeService.getStores(principal.getUserId());
-        return ResponseEntity.ok(stores).getBody();
+        return stores;
     }
 
     @PostMapping("/store")

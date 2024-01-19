@@ -1,6 +1,6 @@
 package com.budgetbetter.backendapi.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,7 +43,7 @@ public class ExpenseEntity {
 
     @Column(name = "date", updatable = true, nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @JsonIgnore
     @ManyToOne

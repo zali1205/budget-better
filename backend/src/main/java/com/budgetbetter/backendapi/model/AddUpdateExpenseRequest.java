@@ -1,15 +1,15 @@
 package com.budgetbetter.backendapi.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class AddExpenseRequest {
+public class AddUpdateExpenseRequest {
     
-    private Date date;
+    private LocalDate date;
     private Boolean reocurring;
     private String description;
     private Double totalCost;

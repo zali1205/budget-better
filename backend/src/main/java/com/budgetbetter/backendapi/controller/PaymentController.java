@@ -2,7 +2,6 @@ package com.budgetbetter.backendapi.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,7 @@ public class PaymentController {
     @GetMapping("/payments")
     public List<PaymentEntity> getPayments(@AuthenticationPrincipal UserPrincipal principal) {
         List<PaymentEntity> payments = paymentService.getPayments(principal.getUserId());
-        return ResponseEntity.ok(payments).getBody();
+        return payments;
     }
 
     @PostMapping("/payment")
