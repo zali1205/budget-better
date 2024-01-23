@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,10 +39,15 @@ public class ExpenseController {
 
     }
 
-    @PutMapping("/expense/{paymentId}")
-    public ExpenseEntity updateExpense(@PathVariable Integer paymentId, @AuthenticationPrincipal UserPrincipal principal, @RequestBody @Validated AddUpdateExpenseRequest request) {
-        ExpenseEntity updatedExpense = expenseService.updateExpense(principal.getUserId(), paymentId, request.getStoreId(), request.getPaymentId(), request.getDate(), 
+    @PutMapping("/expense/{expenseId}")
+    public ExpenseEntity updateExpense(@PathVariable Long expenseId, @AuthenticationPrincipal UserPrincipal principal, @RequestBody @Validated AddUpdateExpenseRequest request) {
+        ExpenseEntity updatedExpense = expenseService.updateExpense(principal.getUserId(), expenseId, request.getStoreId(), request.getPaymentId(), request.getDate(), 
                                     request.getTotalCost(), request.getReocurring(), request.getDescription(), request.getExpenseType());
         return updatedExpense;
+    }
+
+    @DeleteMapping("/expense/{expenseId}")
+    public void deleteExpense(@PathVariable Long expenseId, @AuthenticationPrincipal UserPrincipal principal) {
+        expenseService.deleteExpense(principal.getUserId(), expenseId);
     }
 }

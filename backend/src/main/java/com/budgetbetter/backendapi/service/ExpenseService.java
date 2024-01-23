@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.budgetbetter.backendapi.entity.ExpenseEntity;
@@ -27,12 +28,12 @@ public class ExpenseService {
     private final PaymentRepository paymentRepository;
     private final ExpenseRepository expenseRepository;
 
-    public List<ExpenseEntity> getExpenses(Long appUserId) {
+    public List<ExpenseEntity> getExpenses(@NonNull Long appUserId) {
         UserEntity appUser = userRepository.findById(appUserId).get();
         return appUser.getExpenses();
     }
 
-    public ExpenseEntity addExpense(Long appUserId, Long storeId, Long paymentId, LocalDate date, Double totalCost, Boolean reoccuring, String description, String expenseType) {
+    public ExpenseEntity addExpense(@NonNull Long appUserId, Long storeId, Long paymentId, LocalDate date, Double totalCost, Boolean reoccuring, String description, String expenseType) {
         UserEntity appUser = userRepository.findById(appUserId).get();
         Optional<StoreEntity> store = storeRepository.findByAppUserAndId(appUser, storeId);
         if (store.isEmpty()) {
@@ -57,11 +58,11 @@ public class ExpenseService {
 
     }
 
-    public ExpenseEntity updateExpense(Long appUserId, Integer expenseId, Long storeId, Long paymentId, LocalDate date, Double totalCost, Boolean reoccuring, String description, String expenseType) {
+    public ExpenseEntity updateExpense(@NonNull Long appUserId, Long expenseId, Long storeId, Long paymentId, LocalDate date, Double totalCost, Boolean reoccuring, String description, String expenseType) {
         UserEntity appUser = userRepository.findById(appUserId).get();
-        Optional<ExpenseEntity> expense = expenseRepository.findByAppUserAndId(appUser, paymentId);
+        Optional<ExpenseEntity> expense = expenseRepository.findByAppUserAndId(appUser, expenseId);
         if (expense.isEmpty()) {
-            throw new EntityNotFoundException("Expense with ID: " + expenseId + "does not exist.");
+            throw new EntityNotFoundException("Expense with ID: " + expenseId + " does not exist.");
         }
         Optional<StoreEntity> store = storeRepository.findByAppUserAndId(appUser, storeId);
         if (store.isEmpty()) {
@@ -74,7 +75,6 @@ public class ExpenseService {
         ExpenseEntity currentExpense = expense.get();
         currentExpense.setStore(store.get());
         currentExpense.setPayment(payment.get());
-        System.out.println("DATE:++++++++++++++ " + date);
         currentExpense.setDate(date);
         currentExpense.setTotalCost(totalCost);
         currentExpense.setReoccuring(reoccuring);
@@ -82,6 +82,18 @@ public class ExpenseService {
         currentExpense.setExpenseType(expenseType);
         expenseRepository.save(currentExpense);
         return currentExpense;
+    }
+
+    public void deleteExpense(@NonNull Long appUserId, Long expenseId) {
+        UserEntity appUser = userRepository.findById(appUserId).get();
+        Optional<ExpenseEntity> expense = expenseRepository.findByAppUserAndId(appUser, expenseId);
+        if (expense.isEmpty()) {
+            throw new EntityNotFoundException("Expense with ID: " + expenseId + "does not exist.");
+        }
+        ExpenseEntity currentExpense = expense.get();
+        if (currentExpense != null) {
+            expenseRepository.delete(currentExpense);
+        }
     }
 
 }

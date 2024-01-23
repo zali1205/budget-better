@@ -2,6 +2,7 @@ package com.budgetbetter.backendapi.service;
 
 import java.util.List;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.budgetbetter.backendapi.entity.StoreEntity;
@@ -18,13 +19,13 @@ public class StoreService {
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
 
-    public List<StoreEntity> getStores(Long appUserId) {
+    public List<StoreEntity> getStores(@NonNull Long appUserId) {
         UserEntity appUser = userRepository.findById(appUserId).get();
         List<StoreEntity> listOfStores = appUser.getStores();
         return listOfStores;
     }
 
-    public void addStore(Long appUserId, String storeName) {
+    public void addStore(@NonNull Long appUserId, String storeName) {
         UserEntity appUser = userRepository.findById(appUserId).get();
         StoreEntity store = new StoreEntity();
         store.setAppUser(appUser);
